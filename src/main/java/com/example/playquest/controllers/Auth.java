@@ -13,4 +13,11 @@ public class Auth {
     public String Index() {
         return "index";
     }
+
+    @Autowired
+    @GetMapping(path="/admin")
+    public String Admin(){
+        return "admin";
+    }
+
 }

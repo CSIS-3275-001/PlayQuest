@@ -1,0 +1,65 @@
+<!-- admin-page.html -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="fragments/header.html"></th:block>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-md-9">
+            <h1 class="mt-4">Welcome, Admin!</h1>
+
+            <!-- Date Range Selection -->
+            <div class="mt-4">
+                <h2>Select Date Range:</h2>
+                <form th:action="@{/admin/generate-reports}" method="post" class="mb-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="startDate" class="form-label">Start Date:</label>
+                            <input type="text" id="startDate" name="startDate" class="form-control datepicker" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="endDate" class="form-label">End Date:</label>
+                            <input type="text" id="endDate" name="endDate" class="form-control datepicker" required>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary">Generate Financial Reports</button>
+                        <button type="submit" class="btn btn-primary">Generate Activity Reports</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Messaging System Configuration -->
+            <div class="mt-4">
+                <h2>Messaging System Configuration</h2>
+                <form th:action="@{/admin/update-messaging-system}" method="post">
+                    <!-- Add form inputs and buttons to configure the messaging system -->
+                    <!-- You can use Thymeleaf expressions to pre-populate the form with existing values -->
+                    <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                </form>
+            </div>
+
+            <!-- Profile System Configuration -->
+            <div class="mt-4">
+                <h2>Profile System Configuration</h2>
+                <form th:action="@{/admin/update-profile-system}" method="post">
+                    <!-- Add form inputs and buttons to configure the profile system -->
+                    <!-- You can use Thymeleaf expressions to pre-populate the form with existing values -->
+                    <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr('.datepicker', {
+        dateFormat: 'Y-m-d'
+    });
+</script>
+</body>
+</html>
