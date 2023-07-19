@@ -1,3 +1,101 @@
 .breadcrumb a {
     color: #7613F4;
 }
+
+/* STORY */
+.stories-container {
+    display: flex;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    padding-bottom: 10px; /* Add bottom padding to accommodate scrollbar */
+}
+
+.stories {
+    display: flex;
+    gap: 10px; /* Adjust the gap between stories as desired */
+}
+
+.story {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 80px; /* Adjust the width of each story as desired */
+    height: 100px; /* Adjust the height of each story as desired */
+    text-align: center; /* Center the text horizontally */
+}
+
+.story-image {
+    width: 100%;
+    height: 100%;
+    background-color: #ccc; /* Add your own background color or styling */
+    border-radius: 50%;
+    overflow: hidden; /* Ensure the image fits within the circle */
+}
+
+.story-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.story-name {
+    font-size: 12px; /* Adjust the font size as desired */
+    margin-top: 5px; /* Add space between the image and the name */
+}
+
+/* POST */
+
+.instagram-post {
+    max-width: 600px; /* Adjust the maximum width as desired */
+    margin: 0 auto; /* Center the post horizontally */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.post-author-name {
+    font-weight: bold;
+}
+
+.post-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.post-actions {
+    margin-bottom: 5px;
+}
+
+.post-actions i {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.post-likes {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.post-caption {
+    margin-bottom: 5px;
+}
+
+.comment-author {
+    font-weight: bold;
+}
