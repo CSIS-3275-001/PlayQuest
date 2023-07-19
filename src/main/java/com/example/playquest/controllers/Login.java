@@ -28,11 +28,13 @@ public class Login {
 
     @PostMapping("/login")
     public String login(Model model, @RequestParam("email") String email, @RequestParam("password") String password) {
-        Optional<User> optionalUser = usersRepository.findByEmail(email);
+        Optional<User> user = usersRepository.findByEmail(email);
         System.out.println("M here");
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            if (user.getPassword().equals(password)) {
+        System.out.println(user);
+        if (user.isPresent()) {
+            User u = user.get();
+            if (u.getPassword().equals(password)) {
+                System.out.println("M here yes");
                 return "redirect:/";
             }
         }
@@ -40,4 +42,10 @@ public class Login {
         model.addAttribute("error", "Invalid email or password."); // Add the error message to the model
         return "login"; // Return to the login page
     }
+
+    @GetMapping("/logout")
+    public String logout(Model model) {
+        return "/login"; // Return to the login page
+    }
+
 }

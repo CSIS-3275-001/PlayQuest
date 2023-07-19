@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @AllArgsConstructor
-public class Auth {
+public class Home {
     @Autowired
     @GetMapping(path = "/")
     public String Index() {
