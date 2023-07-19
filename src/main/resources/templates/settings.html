@@ -2,12 +2,24 @@
 <html lang="en">
 <th:block th:include="fragments/header.html"></th:block>
 <body>
-<div class="sidebar" th:include="fragments/sidebar.html" style="float: left" >
-</div>
-<div class="container">
-  <h1>Settings!</h1>
+
+<div class="container-fluid" style="padding: 0px;">
+  <div class="row">
+    <div class="sidebar col-md-2" th:include="fragments/sidebar.html" style="float: left" ></div>
+    <div class="col-md-7">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Settings</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="ads-sidebar col-md-3">
+      <th:block th:include="fragments/ads.html"></th:block>
+    </div>
+  </div>
 </div>
 
-  <th:block th:include="fragments/footer.html"></th:block>
+<th:block th:include="fragments/footer.html"></th:block>
 </body>
 </html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:include="/fragments/header.html"></th:block>
+<body>
+
+<div class="container-fluid" style="padding: 0px;">
+  <div class="row">
+    <div class="sidebar col-md-2" th:include="/admin/sidebar.html" style="float: left" ></div>
+    <div class="col-md-10">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Admin</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<th:block th:include="/fragments/footer.html"></th:block>
+</body>
+</html>
