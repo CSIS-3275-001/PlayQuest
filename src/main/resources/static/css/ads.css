@@ -6,6 +6,8 @@
 .ads-panel {
     display: flex;
     flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
 }
 
 #ads-title {
@@ -16,5 +18,5 @@
 
 .ads-panel .row {
     flex: 1 1 30vh;
-    border: 1px solid black;
+    margin: 10px;
 }

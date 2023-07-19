@@ -18,11 +18,11 @@
       <div class="container mt-5">
         <h1>Upload Photos</h1>
 
-        <form method="post" action="/upload" enctype="multipart/form-data">
+        <form method="post" action="/admin/ads" enctype="multipart/form-data">
           <div class="form-group">
             <label for="photos">Select Photos:</label>
-            <input type="file" id="photos" name="photos" multiple>
-            <small class="form-text text-muted">You can select multiple photos.</small>
+            <input type="file" id="photos" name="photos" multiple accept="image/*" onchange="validateFileSelection(this, 3)">
+            <small class="form-text text-muted">You can select up to three image files.</small>
           </div>
 
           <div class="form-group">
@@ -32,7 +32,17 @@
 
         <div id="preview" class="mt-5">
           <h2>Preview</h2>
-          <div class="row" id="previewImages"></div>
+          <div class="row" id="previewImages">
+            <div class="col-md-3">
+              <img src="/images/ads/1.jpg" alt="Image 1" class="img-thumbnail">
+            </div>
+            <div class="col-md-3">
+              <img src="/images/ads/2.jpg" alt="Image 1" class="img-thumbnail">
+            </div>
+            <div class="col-md-3">
+              <img src="/images/ads/3.jpg" alt="Image 1" class="img-thumbnail">
+            </div>
+          </div>
         </div>
       </div>
 
