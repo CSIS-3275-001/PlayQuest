@@ -1,0 +1,20 @@
+.ads-sidebar {
+    background: #e3e3e3;
+    height: 100vh;
+}
+
+.ads-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+#ads-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+.ads-panel .row {
+    flex: 1 1 30vh;
+    border: 1px solid black;
+}
