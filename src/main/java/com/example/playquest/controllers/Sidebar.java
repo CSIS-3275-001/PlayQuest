@@ -28,4 +28,10 @@ public class Sidebar {
             return "settings";
         }
 
+    @Autowired
+    @GetMapping(path = "/profile")
+    public String Profile() {
+        return "profile";
+    }
+
 }
