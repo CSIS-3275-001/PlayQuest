@@ -16,12 +16,8 @@ body{
     padding: 0;
 }
 
-.container-fluid {
-    padding: 30px 30px;
-}
-
 .db-social .head-profile {
-    margin-top: -208px;
+    margin-top: -179px;
     border-radius: 158px;
     background: none;
     position: relative;
