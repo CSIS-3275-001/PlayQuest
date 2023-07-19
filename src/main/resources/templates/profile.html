@@ -2,16 +2,20 @@
 <html lang="en">
 <th:block th:include="fragments/header.html"></th:block>
 <body>
-<div class="sidebar" th:include="fragments/sidebar.html" style="float: left" >
-</div>
-<div class="container">
-  <th:block th:include="fragments/profileTop.html"></th:block>
-</div>
-<div class="container" style="width: 100%">
 
-  <th:block th:include="fragments/profileBottom.html"></th:block>
-</div>
+<div class="container-fluid" style="padding: 0px;">
+  <div class="row">
+    <div class="sidebar col-md-2" th:include="fragments/sidebar.html" style="float: left" ></div>
+    <div class="container">
+      <th:block th:include="fragments/profileTop.html"></th:block>
+    </div>
+    <div class="container" style="width: 100%">
 
+      <th:block th:include="fragments/profileBottom.html"></th:block>
+    </div>
+
+  </div>
+</div>
 
 <th:block th:include="fragments/footer.html"></th:block>
 </body>
