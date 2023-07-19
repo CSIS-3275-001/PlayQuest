@@ -1,0 +1,12 @@
+.nav-item a svg {
+    margin-right: 10px;
+}
+
+.nav-item:hover {
+    background: #7613F4 !important;
+}
+
+.nav-item {
+    transition: 0.05s ease-in-out;
+    border-radius: 10px;
+}
