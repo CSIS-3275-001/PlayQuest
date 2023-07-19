@@ -2,50 +2,106 @@ package com.example.playquest.controllers;
 
 import com.example.playquest.entities.User;
 import com.example.playquest.repositories.UsersRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.playquest.services.SessionManager;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
-import javax.naming.AuthenticationException;
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
-@AllArgsConstructor
 public class Login {
 
-    @Autowired
     private UsersRepository usersRepository;
+    private final SessionManager sessionManager;
+
+    public Login(SessionManager sessionManager, UsersRepository usersRepository) {
+        this.sessionManager = sessionManager;
+        this.usersRepository = usersRepository;
+    }
 
 
     @GetMapping("/login")
-    public String loginForm() {
+    public String showLoginPage(HttpServletRequest request) {
+
         return "login";
     }
 
     @PostMapping("/login")
-    public String login(Model model, @RequestParam("email") String email, @RequestParam("password") String password) {
-        Optional<User> user = usersRepository.findByEmail(email);
-        System.out.println("M here");
-        System.out.println(user);
-        if (user.isPresent()) {
-            User u = user.get();
-            if (u.getPassword().equals(password)) {
-                System.out.println("M here yes");
-                return "redirect:/";
-            }
-        }
+    public RedirectView login(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletResponse response) {
+        // Authenticate the user based on email and password
+        User user = authenticateUserByEmailAndPassword(email, password);
 
-        model.addAttribute("error", "Invalid email or password."); // Add the error message to the model
-        return "login"; // Return to the login page
+        if (user != null) {
+            // If the user is authenticated, create a session
+            String sessionId = generateSessionId();
+            Long userId = user.getId();
+            LocalDateTime expirationTime = calculateSessionExpirationTime();
+
+            System.out.println("Session ID here: " + sessionId);
+            sessionManager.createSession(sessionId, userId, expirationTime, response);
+
+            // Return the session ID to the client (e.g., as a cookie or response body)
+            return new RedirectView("/");
+        } else {
+            // Authentication failed, return an error response
+            return new RedirectView("/login?error");
+        }
     }
 
+    private User authenticateUserByEmailAndPassword(String email, String password) {
+        // Implement your authentication logic based on email and password
+        // Query the database or perform any other authentication mechanism
+
+        // Example implementation (replace with your own logic):
+        Optional<User> userOptional = usersRepository.findByEmail(email);
+        if (userOptional.isPresent() && userOptional.get().getPassword().equals(password)) {
+            return userOptional.get();
+        } else {
+            return null;
+        }
+    }
+
+//    @PostMapping("/logout")
+//    public ResponseEntity<String> logout(@RequestParam("sessionId") String sessionId) {
+//        sessionManager.deleteSession(sessionId);
+//
+//        // Perform any additional logout actions
+//        return ResponseEntity.ok("Logged out successfully");
+//    }
+
     @GetMapping("/logout")
-    public String logout(Model model) {
-        return "/login"; // Return to the login page
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        String sessionId = sessionManager.getSessionIdFromCookie(request);
+
+        System.out.println("Session ID logout: " + sessionId);
+        sessionManager.deleteSession(sessionId);
+        sessionManager.deleteSessionIdCookie(response);
+        // Redirect to the login page or any other desired destination
+        return "redirect:/login";
+    }
+
+    private String generateSessionId() {
+        // Implement your logic to generate a session ID
+        // For example, you can use UUID.randomUUID().toString() to generate a random session ID
+        return UUID.randomUUID().toString();
+    }
+
+    private LocalDateTime calculateSessionExpirationTime() {
+        // Implement your logic to calculate the session expiration time
+        // This can involve adding a fixed duration to the current time or using any other expiration logic
+        // Return the session expiration time as a LocalDateTime object
+        return LocalDateTime.now().plusHours(1); // Expiration time is set to 1 hour from the current time
     }
 
 }
