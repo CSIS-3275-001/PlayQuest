@@ -24,16 +24,6 @@ public class Sidebar {
         return "explore";
     }
 
-    @GetMapping(path = "/create")
-    public String Create(HttpServletRequest request) {
-        // Check if the user is logged in or has an active session
-        if (!sessionManager.isUserLoggedIn(request)) {
-            return "redirect:/login";
-        }
-
-        return "create";
-    }
-
     @GetMapping(path = "/settings")
     public String Settings(HttpServletRequest request) {
         // Check if the user is logged in or has an active session
