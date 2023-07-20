@@ -44,14 +44,4 @@ public class Sidebar {
         return "settings";
     }
 
-    @GetMapping(path = "/profile")
-    public String Profile(HttpServletRequest request) {
-        // Check if the user is logged in or has an active session
-        if (!sessionManager.isUserLoggedIn(request)) {
-            return "redirect:/login";
-        }
-
-        return "profile";
-    }
-
 }

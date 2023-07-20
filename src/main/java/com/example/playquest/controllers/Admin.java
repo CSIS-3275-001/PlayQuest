@@ -1,5 +1,7 @@
 package com.example.playquest.controllers;
 
+import com.example.playquest.entities.Game;
+import com.example.playquest.repositories.GameRepository;
 import com.example.playquest.services.SessionManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -27,6 +29,7 @@ import java.util.Objects;
 public class Admin {
 
     private final SessionManager sessionManager;
+    private final GameRepository gameRepository;
 
     @GetMapping("/admin")
     public String Administrator(HttpServletRequest request) {
@@ -48,6 +51,20 @@ public class Admin {
 
         // If the user is logged in, proceed with the home page logic
         return "admin/ads";
+    }
+
+    @GetMapping("/admin/games")
+    public String Games(Model model, HttpServletRequest request) {
+        // Check if the user is logged in or has an active session
+        if (!sessionManager.isUserLoggedIn(request)) {
+            return "redirect:/login";
+        }
+
+        List<Game> games = gameRepository.findAll();
+        model.addAttribute("games", games);
+
+        // If the user is logged in, proceed with the home page logic
+        return "admin/games";
     }
 
     @PostMapping("/admin/ads")

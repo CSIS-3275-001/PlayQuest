@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:include="./fragments/header.html"></th:block>
+<body>
+
+<div class="container-fluid" style="padding: 0px;">
+    <div class="row">
+        <div class="sidebar col-md-2" th:include="./admin/sidebar.html" style="float: left" ></div>
+        <div class="col-md-10">
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Games</li>
+                </ol>
+            </nav>
+
+            <div class="container mt-5">
+                <h1>Games</h1>
+
+                <table>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Release Date</th>
+                        <th>Icon URL</th>
+                        <th>Production Company</th>
+                    </tr>
+                    <tr th:each="game : ${gamesProfiles}">
+                        <td th:text="${game.fullName}"></td>
+                        <td th:text="${game.releaseDate}"></td>
+                        <td th:text="${game.iconUrl}"></td>
+                        <td th:text="${game.productionCompany}"></td>
+                    </tr>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<th:block th:include="./fragments/footer.html"></th:block>
+</body>
+</html>
