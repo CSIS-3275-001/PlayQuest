@@ -2,10 +2,10 @@
     color: #7613F4;
 }
 
-.posts-page {
-    height: 100vh;
-    overflow: scroll;
-}
+/*.posts-page {*/
+/*    height: 100vh;*/
+/*    overflow: scroll;*/
+/*}*/
 
 /* STORY */
 .stories-container {
@@ -50,6 +50,11 @@
 }
 
 /* POST */
+
+.post-wall {
+    height: 77vh;
+    overflow: scroll;
+}
 
 .instagram-post {
     max-width: 600px; /* Adjust the maximum width as desired */

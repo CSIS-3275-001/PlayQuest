@@ -5,12 +5,10 @@
 
 <div class="container-fluid" style="padding: 0px;">
   <div class="row">
-    <div class="sidebar col-md-2" th:include="fragments/sidebar.html" style="float: left" ></div>
-    <div class="container">
-      <th:block th:include="fragments/profileTop.html"></th:block>
-    </div>
-    <div class="container" style="width: 100%">
+    <div class="sidebar col-md-2" th:include="fragments/sidebar.html"></div>
 
+    <div class="col-md-9">
+      <th:block th:include="fragments/profileTop.html"></th:block>
       <th:block th:include="fragments/profileBottom.html"></th:block>
     </div>
 

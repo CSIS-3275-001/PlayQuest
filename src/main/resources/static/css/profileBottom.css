@@ -1,13 +1,12 @@
 
 .profile-page {
-    position: relative;
-    margin: 20px -138px 30px 143px;
+    height: 55vh;
+    overflow: scroll;
 }
 
 
 .profile-page .profile-header .cover figure {
     margin-bottom: 0;
-
 }
 
 @media (max-width: 767px) {

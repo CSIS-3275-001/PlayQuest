@@ -2,9 +2,11 @@ body{
     background:#eee;
 }
 
+.db-social {
+    margin: 0px;
+}
 
 .db-social .jumbotron {
-    margin: 0;
     background-image: url('../images/profilebg.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
