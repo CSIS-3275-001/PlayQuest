@@ -18,6 +18,51 @@
             <div class="container mt-5">
                 <h1>Games</h1>
 
+
+                <button onclick="openPopup()">Create New Game</button>
+
+                <div id="popup" class="popup">
+                    <div class="popup-content">
+                        <button type="button" class="close" onclick="closePopup()">&times;</button>
+                        <form action="/admin/games/save" method="post" class="needs-validation" novalidate>
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label">Full Name:</label>
+                                <input type="text" id="fullName" name="fullName" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Please provide a full name.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="releaseDate" class="form-label">Release Date:</label>
+                                <input type="date" id="releaseDate" name="releaseDate" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Please select a release date.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="iconUrl" class="form-label">Icon URL:</label>
+                                <input type="text" id="iconUrl" name="iconUrl" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Please provide an icon URL.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="productionCompany" class="form-label">Production Company:</label>
+                                <input type="text" id="productionCompany" name="productionCompany" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Please provide a production company.
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </form>
+                    </div>
+
+                </div>
+
                 <table>
                     <tr>
                         <th>Full Name</th>
@@ -25,7 +70,7 @@
                         <th>Icon URL</th>
                         <th>Production Company</th>
                     </tr>
-                    <tr th:each="game : ${gamesProfiles}">
+                    <tr th:each="game : ${games}">
                         <td th:text="${game.fullName}"></td>
                         <td th:text="${game.releaseDate}"></td>
                         <td th:text="${game.iconUrl}"></td>

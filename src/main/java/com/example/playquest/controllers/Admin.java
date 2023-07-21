@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -67,6 +68,12 @@ public class Admin {
         return "admin/games";
     }
 
+    @PostMapping("/admin/games/save")
+    public String saveGame(@ModelAttribute Game game) {
+        gameRepository.save(game);
+        return "redirect:/admin/games";
+    }
+
     @PostMapping("/admin/ads")
     public String InserAds(Model model, HttpServletRequest request, @RequestParam("photos") MultipartFile[] photos) {
         String uploadDir = "src/main/resources/static/images/ads";
@@ -111,6 +118,5 @@ public class Admin {
         model.addAttribute("message", "success");
         return "admin/ads";
     }
-
 
 }
