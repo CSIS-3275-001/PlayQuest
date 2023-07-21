@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:include="/fragments/header.html"></th:block>
+<body>
+
+<div class="container-fluid" style="padding: 0px;">
+  <div class="row">
+    <div class="sidebar col-md-2" th:include="/admin/sidebar.html" style="float: left" ></div>
+    <div class="col-md-10">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Admin</li>
+          <li class="breadcrumb-item active" aria-current="page">Users</li>
+        </ol>
+      </nav>
+      <div class="col-md-7">
+        <h3>Users</h3>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- Loop through users -->
+          <th:block th:each="user : ${users}">
+            <tr>
+              <td th:text="${user.name}"></td>
+              <td>
+                <a type="button" class="btn btn-primary updateButton" th:data-id="${user.id}">
+                  <i class="fas fa-edit" style="color: #ffffff;"></i>
+                </a>
+                <a type="button" class="btn btn-danger" th:href="@{/admin/users/delete/{id}(id=${user.id})}">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </td>
+            </tr>
+          </th:block>
+          </tbody>
+        </table>
+
+
+        <!--        <a href="/admin/users/create" class="btn btn-success" id="createButton">Create User</a>-->
+        <a class="btn btn-success" id="createButton">Create User</a>
+
+        <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="userModalLabel">New User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <!-- This is the form for adding or updating user -->
+                <form id="userForm">
+                  <input type="hidden" id="userId">
+                  <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" required>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveButton">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+<th:block th:include="/fragments/footer.html"></th:block>
+</body>
+</html>

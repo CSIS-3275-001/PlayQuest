@@ -1,18 +1,19 @@
 package com.example.playquest.controllers;
 
 import com.example.playquest.entities.Game;
+import com.example.playquest.entities.User;
 import com.example.playquest.repositories.GameRepository;
+import com.example.playquest.repositories.UsersRepository;
 import com.example.playquest.services.SessionManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Admin {
 
+    private final UsersRepository usersRepository;
     private final SessionManager sessionManager;
     private final GameRepository gameRepository;
 
@@ -53,6 +55,59 @@ public class Admin {
         // If the user is logged in, proceed with the home page logic
         return "admin/ads";
     }
+
+    @GetMapping("/admin/users")
+    public String Users(HttpServletRequest request, Model model) {
+        // Check if the user is logged in or has an active session
+        if (!sessionManager.isUserLoggedIn(request)) {
+            return "redirect:/login";
+        }
+
+        List<User> users = usersRepository.findAll();
+        model.addAttribute("users", users);
+
+        // If the user is logged in, proceed with the home page logic
+        return "admin/users";
+    }
+
+    @GetMapping("/admin/users/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+        User user = usersRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+
+        return ResponseEntity.ok().body(user);
+    }
+
+    @PostMapping("/admin/users/create")
+    public String createUser(@ModelAttribute User user) {
+        usersRepository.save(user);
+        return "admin/users";
+    }
+
+    @GetMapping("/admin/users/update/{id}")
+    public String updateUserForm(@PathVariable("id") Long id, Model model) {
+        User user = usersRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        model.addAttribute("user", user);
+        return "redirect:/admin/users/update";
+    }
+
+    @PostMapping("/admin/users/update/{id}")
+    public String updateUser(@PathVariable("id") Long id, @ModelAttribute User user, Model model) {
+        // Save user after setting id to ensure it updates, not creates new
+        user.setId(id);
+        usersRepository.save(user);
+        return "admin/users";
+    }
+
+    @GetMapping("/admin/users/delete/{id}")
+    public String deleteUser(@PathVariable("id") Long id) {
+        User user = usersRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        usersRepository.delete(user);
+        return "redirect:/admin/users";
+    }
+
 
     @GetMapping("/admin/games")
     public String Games(Model model, HttpServletRequest request) {
@@ -117,6 +172,18 @@ public class Admin {
         // If the user is logged in, proceed with the home page logic
         model.addAttribute("message", "success");
         return "admin/ads";
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public class ResourceNotFoundException extends RuntimeException {
+
+        public ResourceNotFoundException(String message) {
+            super(message);
+        }
+
+        public ResourceNotFoundException(String message, Throwable cause) {
+            super(message, cause);
+        }
     }
 
 }
