@@ -5,6 +5,7 @@ import com.example.playquest.repositories.UserSessionRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -80,5 +81,26 @@ public class SessionManager {
         sessionCookie.setPath("/"); // Set the cookie path to match the one used during creation
         response.addCookie(sessionCookie);
     }
+
+    public Long getUserId(HttpServletRequest request) {
+        // Retrieve the session ID from the cookie
+        String sessionId = getSessionIdFromCookie(request);
+
+        if (sessionId != null) {
+            // Retrieve the session based on the session ID
+            Optional<UserSession> sessionOptional = getSession(sessionId);
+
+            // Check if the session is present and if it indicates the user is logged in
+            if (sessionOptional.isPresent()) {
+                UserSession session = sessionOptional.get();
+                if (session.getUserId() != null) {
+                    return session.getUserId();
+                }
+            }
+        }
+
+        return null; // Return null if the user_id is not found or the session does not exist
+    }
+
 }
 
