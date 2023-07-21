@@ -27,18 +27,21 @@ public class PostContent {
     @Column(nullable = false)
     private String spinnerSelection;
 
-//    @JoinColumn(name = "profile_id")
-//    @ManyToOne
-//    private GameProfile profileId;
-//    public GameProfile getProfileId() {
-//        return profileId;
-//    }
+    @JoinColumn(name = "profile_id")
+    @ManyToOne
+    private GameProfile profileId;
+
+    public GameProfile getProfileId() {
+        return profileId;
+    }
+
+
 
     @JoinColumn(name = "user_id")
     @ManyToOne
     private User userId;
 
-    public User getUserId() {
+    public User getUser() {
         return userId;
     }
 

@@ -37,11 +37,8 @@
 
             <label for="profile" class="profile-select">Profile:</label>
             <select id="profile" name="spinnerSelection">
-              <option value="profile1">Profile 1</option>
-              <option value="profile2">Profile 2</option>
-              <option value="profile3">Profile 3</option>
+              <option th:each="game : ${gamesProfiles}" th:value="${'profile' + game.game.fullName}" th:text="${game.game.fullName}"></option>
             </select>
-
             <button class="btn btn-lg btn-block purple-clr post-button" type="submit">Post</button>
           </form>          <button class="close-button" onclick="closePopup()">X</button>
         </div>
@@ -59,13 +56,13 @@
   document.addEventListener('click', function(event) {
     if (!formWrapper.contains(event.target)) {
       // Execute your function here when the click is outside the form wrapper
-      window.history.back();
+      window.location.href = "/";
     }
   });
 
   function closePopup() {
     document.getElementById('popupForm').style.display = 'none';
-    window.history.back();
+    window.location.href = "/";
   }
 
   document.getElementById('photos').addEventListener('change', function(event) {

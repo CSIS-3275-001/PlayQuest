@@ -1,5 +1,10 @@
 package com.example.playquest.controllers;
 
+import com.example.playquest.entities.GameProfile;
+import com.example.playquest.entities.PostContent;
+import com.example.playquest.repositories.GameProfileRepository;
+import com.example.playquest.repositories.GameRepository;
+import com.example.playquest.repositories.PostContentRepository;
 import com.example.playquest.services.SessionManager;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PipedOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,13 +34,21 @@ import java.util.UUID;
 public class Post {
 
     private SessionManager sessionManager;
+    private final GameProfileRepository gameProfileRepository;
+    private final PostContentRepository postContentRepository;
+
 
     @GetMapping(path = "/create")
-    public String Create(HttpServletRequest request) {
+    public String Create(Model model,HttpServletRequest request) {
         // Check if the user is logged in or has an active session
         if (!sessionManager.isUserLoggedIn(request)) {
             return "redirect:/login";
         }
+
+        List<GameProfile> gamesProfiles = gameProfileRepository.findAll();
+        model.addAttribute("gamesProfiles", gamesProfiles);
+
+        System.out.println("games = " + gamesProfiles);
 
         return "create";
     }
@@ -86,6 +100,15 @@ public class Post {
 
         // Now you have access to all the parameters provided in the POST request.
         // You can use them in your business logic as required.
+        PostContent postContent = new PostContent();
+        postContent.setTitle(title);
+        postContent.setImages(fileNames); // Assuming you only save one photo per post
+        postContent.setDescription(description);
+        postContent.setToggleStatus(toggleStatus);
+        postContent.setSpinnerSelection(spinnerSelection);// Replace "John Doe" with the actual profile name
+
+        // Save the PostContent object to the repository
+        postContentRepository.save(postContent);
 
         // Example usage:
         System.out.println("Title: " + title);
