@@ -23,3 +23,10 @@
     float: right;
     cursor: pointer;
 }
+
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* Adjust the gap as per your preference */
+}
