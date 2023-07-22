@@ -63,20 +63,25 @@
 
                 </div>
 
-                <table>
-                    <tr>
-                        <th>Full Name</th>
-                        <th>Release Date</th>
-                        <th>Icon URL</th>
-                        <th>Production Company</th>
-                    </tr>
-                    <tr th:each="game : ${games}">
-                        <td th:text="${game.fullName}"></td>
-                        <td th:text="${game.releaseDate}"></td>
-                        <td th:text="${game.iconUrl}"></td>
-                        <td th:text="${game.productionCompany}"></td>
-                    </tr>
-                </table>
+                <div class="container mt-4">
+                    <div class="row">
+                        <!-- Thymeleaf iteration to create cards -->
+                        <div th:each="game : ${games}" class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <!-- Game icon -->
+                                <img th:src="${game.iconUrl}" class="card-img-top" alt="Game Icon">
+                                <div class="card-body">
+                                    <!-- Game title -->
+                                    <h5 class="card-title" th:text="${game.fullName}">Game Title</h5>
+                                    <!-- Game release date -->
+                                    <p class="card-text">Release Date: <span th:text="${game.releaseDate}">Release Date</span></p>
+                                    <!-- Game production company -->
+                                    <p class="card-text">Production Company: <span th:text="${game.productionCompany}">Company Name</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 

@@ -1,4 +1,4 @@
-/* Style for the popup */
+/* Style for the popup container */
 .popup {
     display: none;
     position: fixed;
@@ -6,9 +6,11 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9999; /* Ensure the popup is on top */
 }
 
+/* Style for the popup content */
 .popup-content {
     position: absolute;
     top: 50%;
@@ -19,9 +21,19 @@
     border-radius: 5px;
 }
 
+/* Style for the close button in the popup */
 .close {
-    float: right;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
     cursor: pointer;
+}
+
+/* Ensure the cards are below the popup by setting a higher z-index */
+.card {
+    position: relative;
+    z-index: 1;
 }
 
 
