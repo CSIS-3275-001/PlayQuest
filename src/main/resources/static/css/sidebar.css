@@ -10,3 +10,7 @@
     transition: 0.05s ease-in-out;
     border-radius: 10px;
 }
+
+.sidebar-icons {
+    margin-right: 10px;
+}

@@ -16,13 +16,17 @@
             </nav>
 
             <div class="container mt-5">
-                <h1>Games</h1>
-
-
-                <button onclick="openPopup()">Create New Game</button>
+                <div class="row">
+                    <div class="col">
+                        <h1>Games</h1>
+                    </div>
+                    <div class="col text-end">
+                        <a class="btn btn-dark" id="createGame" style="color: #fff;" onclick="openPopup()">Create New Game</a>
+                    </div>
+                </div>
 
                 <div id="popup" class="popup">
-                    <div class="popup-content">
+                    <div class="popup-content" style="width: 35%;">
                         <button type="button" class="close" onclick="closePopup()">&times;</button>
                         <form action="/admin/games/save" method="post" class="needs-validation" novalidate>
                             <div class="mb-3">
@@ -63,7 +67,7 @@
 
                 </div>
 
-                <div class="container mt-4">
+                <div class="container mt-4" style="height: 75vh; overflow: scroll;">
                     <div class="row">
                         <!-- Thymeleaf iteration to create cards -->
                         <div th:each="game : ${games}" class="col-md-4">
