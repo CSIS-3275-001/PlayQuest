@@ -109,74 +109,6 @@
                         <!-- Add more stories as needed -->
                     </div>
                 </div>
-
-<!--                <div class="post-wall">-->
-<!--                    <div class="instagram-post">-->
-<!--                        <div class="post-header">-->
-<!--                            <img src="/images/profilepic.png" alt="Post Author">-->
-<!--                            <span class="post-author-name">John Doe</span>-->
-<!--                        </div>-->
-<!--                        <div class="post-image">-->
-<!--                            <img src="/images/ads/1.jpg" alt="Post Image">-->
-<!--                        </div>-->
-<!--                        <div class="post-footer">-->
-<!--                            <div class="post-actions">-->
-<!--                                <i class="far fa-heart"></i>-->
-<!--                                <i class="far fa-comment"></i>-->
-<!--                            </div>-->
-<!--                            <div class="post-likes">Likes: 100</div>-->
-<!--                            <div class="post-caption">This is the caption for the post.</div>-->
-<!--                            <div class="post-comments">-->
-<!--                                <span class="comment-author">Jane Smith:</span> Comment 1<br>-->
-<!--                                <span class="comment-author">Michael Johnson:</span> Comment 2-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="instagram-post">-->
-<!--                        <div class="post-header">-->
-<!--                            <img src="/images/profilepic.png" alt="Post Author">-->
-<!--                            <span class="post-author-name">John Doe</span>-->
-<!--                        </div>-->
-<!--                        <div class="post-image">-->
-<!--                            <img src="/images/ads/1.jpg" alt="Post Image">-->
-<!--                        </div>-->
-<!--                        <div class="post-footer">-->
-<!--                            <div class="post-actions">-->
-<!--                                <i class="far fa-heart"></i>-->
-<!--                                <i class="far fa-comment"></i>-->
-<!--                            </div>-->
-<!--                            <div class="post-likes">Likes: 100</div>-->
-<!--                            <div class="post-caption">This is the caption for the post.</div>-->
-<!--                            <div class="post-comments">-->
-<!--                                <span class="comment-author">Jane Smith:</span> Comment 1<br>-->
-<!--                                <span class="comment-author">Michael Johnson:</span> Comment 2-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="instagram-post">-->
-<!--                        <div class="post-header">-->
-<!--                            <img src="/images/profilepic.png" alt="Post Author">-->
-<!--                            <span class="post-author-name">John Doe</span>-->
-<!--                        </div>-->
-<!--                        <div class="post-image">-->
-<!--                            <img src="/images/ads/1.jpg" alt="Post Image">-->
-<!--                        </div>-->
-<!--                        <div class="post-footer">-->
-<!--                            <div class="post-actions">-->
-<!--                                <i class="far fa-heart"></i>-->
-<!--                                <i class="far fa-comment"></i>-->
-<!--                            </div>-->
-<!--                            <div class="post-likes">Likes: 100</div>-->
-<!--                            <div class="post-caption">This is the caption for the post.</div>-->
-<!--                            <div class="post-comments">-->
-<!--                                <span class="comment-author">Jane Smith:</span> Comment 1<br>-->
-<!--                                <span class="comment-author">Michael Johnson:</span> Comment 2-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
                 <div class="post-wall">
                     <div class="instagram-post" th:each="post : ${postContents}">
                         <div class="post-header">
@@ -188,10 +120,9 @@
                         </div>
                         <div class="post-footer">
                             <div class="post-actions">
-                                <i class="far fa-heart"></i>
-                                <i class="far fa-comment"></i>
+                                <i class="far fa-heart fa-3x" th:onclick="|updateLikes('${post.id}', ${post.likes})|"></i>
                             </div>
-                            <div class="post-likes">Likes: 100</div>
+                            <div class="post-likes" th:id="'like-counts-' + ${post.id}" th:text="${post.likes}"></div>
                             <div class="post-caption" th:text="${post.description}"></div>
                         </div>
                     </div>
@@ -204,6 +135,69 @@
         </div>
     </div>
 
+        <script>
+            function updateLikes(postID, likes) {
+                let currentLikes = likes;
+                let updatedLikes = 0;
+                const heartIcon = document.querySelector('.fa-heart');
+
+                // Perform the logic to update the likes count (you can make an AJAX request here)
+                const isFilledHeart = heartIcon.classList.contains('fas');
+                if (isFilledHeart) {
+                    updatedLikes = parseInt(currentLikes) - 1;
+                    heartIcon.classList.remove('fas');
+                    heartIcon.classList.add('far');
+
+                } else {
+                    updatedLikes = parseInt(currentLikes) + 1;
+                    heartIcon.classList.remove('far');
+                    heartIcon.classList.add('fas');
+
+                }
+                console.log("current likes " + currentLikes);
+                console.log("post id " + postID);
+
+
+                // Toggle the classes when the icon is clicked
+
+                // Use the correct unique ID for the like-counts element based on post ID
+                document.getElementById("like-counts-" + postID).textContent = updatedLikes;
+
+                let new_data = {
+                    "id": postID,
+                    "likes": updatedLikes
+                };
+                console.log(new_data);
+                updateLikesDB(new_data);
+            }
+            async function updateLikesDB(data) {
+                try {
+                    const response = await fetch('/updateLikes', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    // If the response is successful, wait for 1 second using setTimeout and a Promise
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    // Reload the window after the 1-second delay
+                    window.location.reload();
+                } catch (error) {
+                    // Handle any errors that occurred during the request or response
+                    console.error('Error:', error);
+                }
+            }
+
+
+
+        </script>
     <th:block th:include="fragments/footer.html"></th:block>
 </body>
 </html>

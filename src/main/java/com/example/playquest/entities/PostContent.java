@@ -27,6 +27,10 @@ public class PostContent {
     @Column(nullable = false)
     private String spinnerSelection;
 
+    @Column(nullable = false)
+    private int likes;
+
+
     @JoinColumn(name = "profile_id")
     @ManyToOne
     private GameProfile profileId;
@@ -34,8 +38,6 @@ public class PostContent {
     public GameProfile getProfileId() {
         return profileId;
     }
-
-
 
     @JoinColumn(name = "user_id")
     @ManyToOne
@@ -100,6 +102,14 @@ public class PostContent {
 
     public String getSpinnerSelection() {
         return spinnerSelection;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 
     public void setSpinnerSelection(String spinnerSelection) {
