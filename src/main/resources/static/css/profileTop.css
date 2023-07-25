@@ -19,12 +19,11 @@ body{
 }
 
 .db-social .head-profile {
-    margin-top: -179px;
+    margin-top: -215px;
     border-radius: 158px;
     background: none;
     position: relative;
 }
-
 
 .has-shadow {
     box-shadow: 0 1px 15px 1px rgba(52,40,104,.08);
