@@ -12,6 +12,22 @@
           <li class="breadcrumb-item active" aria-current="page">Admin</li>
         </ol>
       </nav>
+      <div class="row">
+        <div class="card text-bg-primary mb-3" style="max-width: 15rem; margin: 15px;">
+          <div class="card-header"><i class="fa-solid fa-user-tie sidebar-icons"></i> Total Users</div>
+          <div class="card-body" style="text-align: center;">
+            <p class="card-text" style="font-size: 100px;"><span th:text="${totalUsers + 50}"></span></p>
+          </div>
+        </div>
+
+        <div class="card text-bg-warning mb-3" style="max-width: 15rem; margin: 15px;">
+          <div class="card-header"><i class="fa-solid fa-gamepad sidebar-icons"></i> Total Games</div>
+          <div class="card-body" style="text-align: center;">
+            <p class="card-text" style="font-size: 100px;"><span th:text="${totalGames}"></span></p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
