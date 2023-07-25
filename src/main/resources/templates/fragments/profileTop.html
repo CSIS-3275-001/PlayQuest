@@ -19,8 +19,8 @@
                     <div class="heading">Online</div>
                   </li>
                   <li>
-                    <div class="counter">216</div>
-                    <div class="heading">Offline</div>
+                    <div class="counter" th:text="${#lists.size(postContents)}"></div>
+                    <div class="heading">Posts</div>
                   </li>
                 </ul>
               </div>
@@ -29,7 +29,7 @@
                   <img class="rounded-circle" src="./images/profilepic.png" alt="...">
                 </div>
                 <div class="infos">
-                  <h2>Vitamin Water</h2>
+                  <h2 th:text="${user.name}"></h2>
                   <div class="location">New Delhi, IN</div>
                 </div>
               </div>

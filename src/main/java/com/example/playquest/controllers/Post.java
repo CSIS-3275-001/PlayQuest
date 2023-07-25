@@ -2,8 +2,10 @@ package com.example.playquest.controllers;
 
 import com.example.playquest.entities.GameProfile;
 import com.example.playquest.entities.PostContent;
+import com.example.playquest.entities.User;
 import com.example.playquest.repositories.GameProfileRepository;
 import com.example.playquest.repositories.PostContentRepository;
+import com.example.playquest.repositories.UsersRepository;
 import com.example.playquest.services.SessionManager;
 import lombok.AllArgsConstructor;
 import netscape.javascript.JSObject;
@@ -32,7 +34,7 @@ public class Post {
     private SessionManager sessionManager;
     private final GameProfileRepository gameProfileRepository;
     private final PostContentRepository postContentRepository;
-
+    private final UsersRepository usersRepository;
 
     @GetMapping(path = "/create")
     public String Create(Model model,HttpServletRequest request) {
@@ -41,8 +43,13 @@ public class Post {
             return "redirect:/login";
         }
 
+        Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
+        User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
+
+
         List<GameProfile> gamesProfiles = gameProfileRepository.findAll();
         model.addAttribute("gamesProfiles", gamesProfiles);
+        model.addAttribute("user", user);
 
         System.out.println("games = " + gamesProfiles);
 
@@ -97,6 +104,14 @@ public class Post {
             }
         }
 
+        Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
+        User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
+
+
+        List<GameProfile> gamesProfiles = gameProfileRepository.findAll();
+
+
+
         // Now you have access to all the parameters provided in the POST request.
         // You can use them in your business logic as required.
         PostContent postContent = new PostContent();
@@ -115,6 +130,8 @@ public class Post {
 
         // If the user is logged in, proceed with the home page logic
         model.addAttribute("message", "success");
+        model.addAttribute("gamesProfiles", gamesProfiles);
+        model.addAttribute("user", user);
         return "/create"; // Replace this with the appropriate return value for your case
     }
 
