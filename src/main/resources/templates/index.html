@@ -120,7 +120,7 @@
                         </div>
                         <div class="post-footer">
                             <div class="post-actions">
-                                <i class="far fa-heart fa-3x" th:onclick="|updateLikes('${post.id}', ${post.likes})|"></i>
+                                <i class="far fa-heart fa-3x" th:id="'heart-icon-' + ${post.id}"  th:onclick="|updateLikes('${post.id}', ${post.likes})|"></i>
                             </div>
                             <div class="post-likes" th:id="'like-counts-' + ${post.id}" th:text="${post.likes}"></div>
                             <div class="post-caption" th:text="${post.description}"></div>
@@ -139,7 +139,7 @@
             function updateLikes(postID, likes) {
                 let currentLikes = likes;
                 let updatedLikes = 0;
-                const heartIcon = document.querySelector('.fa-heart');
+                const heartIcon = document.getElementById("heart-icon-" + postID);
 
                 // Perform the logic to update the likes count (you can make an AJAX request here)
                 const isFilledHeart = heartIcon.classList.contains('fas');
@@ -194,9 +194,6 @@
                     console.error('Error:', error);
                 }
             }
-
-
-
         </script>
     <th:block th:include="fragments/footer.html"></th:block>
 </body>

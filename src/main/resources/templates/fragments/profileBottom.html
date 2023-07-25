@@ -87,7 +87,7 @@
           </div>
           <div class="post-footer">
             <div class="post-actions">
-              <i class="far fa-heart fa-3x" th:onclick="|updateLikes('${post.id}', ${post.likes})|"></i>
+              <i class="far fa-heart fa-3x"></i>
             </div>
             <div class="post-likes" th:id="'like-counts-' + ${post.id}" th:text="${post.likes}"></div>
             <div class="post-caption" th:text="${post.description}"></div>
