@@ -35,11 +35,16 @@ public class Admin {
     private final GameRepository gameRepository;
 
     @GetMapping("/admin")
-    public String Administrator(HttpServletRequest request) {
+    public String Administrator(HttpServletRequest request, Model model) {
         // Check if the user is logged in or has an active session
         if (!sessionManager.isUserLoggedIn(request)) {
             return "redirect:/login";
         }
+
+        long totalUsers = usersRepository.count();
+        long totalGames = gameRepository.count();
+        model.addAttribute("totalUsers", totalUsers);
+        model.addAttribute("totalGames", totalGames);
 
         // If the user is logged in, proceed with the home page logic
         return "admin/index";
