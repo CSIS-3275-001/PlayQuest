@@ -14,5 +14,4 @@ public interface PostContentRepository extends JpaRepository<PostContent, Long> 
     Optional<PostContent> findById(Long id);
 
     void deleteById(Long id);
-
 }
