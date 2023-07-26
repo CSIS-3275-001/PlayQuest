@@ -29,7 +29,17 @@
         <div class="col-md-12 grid-margin">
           <div class="card rounded">
             <div class="card-body">
-              <h1>Games Profile</h1>
+              <div class="row">
+                <div class="col-md-7">
+                  <h1>Games Profile</h1>
+                </div>
+                <div class="col-md-5">
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gameModal">
+                    Add Game Profile
+                  </button>
+                </div>
+              </div>
+
               <div class="game-card" th:each="game : ${gamesProfiles}">
                 <div class="game-image">
                   <img th:src="${game.game.iconUrl}" alt="Game Icon" style="width: 100%;">
@@ -51,9 +61,7 @@
         </div>
       </div>
 
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gameModal">
-        Add Game Profile
-      </button>
+
 
       <!-- Bootstrap Modal -->
       <div class="modal fade" id="gameModal" tabindex="-1" aria-labelledby="gameModalLabel" aria-hidden="true">
