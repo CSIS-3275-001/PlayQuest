@@ -13,7 +13,118 @@
           <li class="breadcrumb-item active" aria-current="page">Settings</li>
         </ol>
       </nav>
+
+      <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Free</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>10 users included</li>
+              <li>2 GB of storage</li>
+              <li>Email support</li>
+              <li>Help center access</li>
+            </ul>
+            <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
+          </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Pro</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$15 <small class="text-muted">/ mo</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>20 users included</li>
+              <li>10 GB of storage</li>
+              <li>Priority email support</li>
+              <li>Help center access</li>
+            </ul>
+            <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
+          </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Enterprise</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>30 users included</li>
+              <li>15 GB of storage</li>
+              <li>Phone and email support</li>
+              <li>Help center access</li>
+            </ul>
+            <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
+          </div>
+        </div>
+      </div>
+
+
+
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Small modal</button>
+
+      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="subscription-form">
+              <section>
+                <div class="container py-5">
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-md-9 col-lg-7 col-xl-5">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="card-title d-flex justify-content-between mb-0">
+                            <p class="text-muted mb-0">Retro Chair</p>
+                            <p class="mb-0">$10</p>
+                          </div>
+                        </div>
+                        <div class="rounded-bottom" style="background-color: #eee;">
+                          <div class="card-body">
+                            <p class="mb-4">Your payment details</p>
+
+                            <div class="form-outline mb-3">
+                              <input type="text" id="formControlLgXM8" class="form-control"
+                                     placeholder="1234 5678 1234 5678" />
+                              <label class="form-label" for="formControlLgXM8">Card Number</label>
+                            </div>
+
+                            <div class="row mb-3">
+                              <div class="col-6">
+                                <div class="form-outline">
+                                  <input type="password" id="formControlLgExpk8" class="form-control"
+                                         placeholder="MM/YYYY" />
+                                  <label class="form-label" for="formControlLgExpk8">Expire</label>
+                                </div>
+                              </div>
+                              <div class="col-6">
+                                <div class="form-outline">
+                                  <input type="password" id="formControlLgcvv8" class="form-control" placeholder="Cvv" />
+                                  <label class="form-label" for="formControlLgcvv8">Cvv</label>
+                                </div>
+                              </div>
+                            </div>
+
+                            <button class="btn btn-info btn-block">Save Details</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
     </div>
+
     <div class="ads-sidebar col-md-3">
       <th:block th:include="fragments/ads.html"></th:block>
     </div>
