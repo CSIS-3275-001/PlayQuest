@@ -16,95 +16,11 @@
                 <div class="stories-container">
                     <div class="stories">
                         <!-- Add your Instagram-like stories here -->
-                        <div class="story">
+                        <div th:each="user : ${allUsers}" class="story">
                             <div class="story-image">
                                 <img src="/images/ads/1.jpg" alt="Story 1">
                             </div>
-                            <div class="story-name">User 1</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/2.jpg" alt="Story 2">
-                            </div>
-                            <div class="story-name">User 2</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/3.jpg" alt="Story 3">
-                            </div>
-                            <div class="story-name">User 3</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/1.jpg" alt="Story 1">
-                            </div>
-                            <div class="story-name">User 1</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/2.jpg" alt="Story 2">
-                            </div>
-                            <div class="story-name">User 2</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/3.jpg" alt="Story 3">
-                            </div>
-                            <div class="story-name">User 3</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/1.jpg" alt="Story 1">
-                            </div>
-                            <div class="story-name">User 1</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/2.jpg" alt="Story 2">
-                            </div>
-                            <div class="story-name">User 2</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/3.jpg" alt="Story 3">
-                            </div>
-                            <div class="story-name">User 3</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/1.jpg" alt="Story 1">
-                            </div>
-                            <div class="story-name">User 1</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/2.jpg" alt="Story 2">
-                            </div>
-                            <div class="story-name">User 2</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/3.jpg" alt="Story 3">
-                            </div>
-                            <div class="story-name">User 3</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/1.jpg" alt="Story 1">
-                            </div>
-                            <div class="story-name">User 1</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/2.jpg" alt="Story 2">
-                            </div>
-                            <div class="story-name">User 2</div>
-                        </div>
-                        <div class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/3.jpg" alt="Story 3">
-                            </div>
-                            <div class="story-name">User 3</div>
+                            <div class="story-name" th:text="${user.name}"></div>
                         </div>
                         <!-- Add more stories as needed -->
                     </div>

@@ -32,10 +32,11 @@ public class Home {
         Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
         User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
 
-
+        List<User>  allUsers = usersRepository.findAll();
         List<PostContent> postContents = postContentRepository.findAll();
         model.addAttribute("postContents", postContents);
         model.addAttribute("user", user);
+        model.addAttribute("allUsers", allUsers);
 
 
         // If the user is logged in, proceed with the home page logic
