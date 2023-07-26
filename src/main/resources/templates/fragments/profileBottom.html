@@ -38,7 +38,13 @@
                   <h2 th:text="${game.game.fullName}"></h2>
                   <p><strong>Release Date:</strong> <span th:text="${game.game.releaseDate}"></span></p>
                   <p><strong>Production Company:</strong> <span th:text="${game.game.productionCompany}"></span></p>
+                  <p><strong>User</strong> <span th:text="${game.user.getName()}"></span></p>
                 </div>
+                <!-- Delete button -->
+                <form th:action="@{/delete-game-profile}" th:method="post">
+                  <input type="hidden" name="profileId" th:value="${game.profileId}" />
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
               </div>
             </div>
           </div>
@@ -58,15 +64,22 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form id="gameProfileForm" th:action="@{/save-game-profile}"  method="post">
+              <form id="gameProfileForm" th:action="@{/save-game-profile}" th:object="${gameProfile}" method="post">
                 <div class="form-group">
                   <label for="gameId">Select Game:</label>
-                  <select class="form-control" id="gameId" name="gameId"  required>
+                  <select class="form-control" id="gameId" name="gameId">
                     <!-- Populate this dropdown dynamically with game options -->
-                    <option th:each="game : ${gameProfile}" th:value="${game.game.fullName}" th:text="${game.game.fullName}"></option>
+                    <option th:each="game : ${games}" th:value="${game.getId()}" th:text="${game.getFullName()}"></option>
                   </select>
                 </div>
-                <!-- Add other form fields as needed -->
+                <div class="form-group">
+                  <label for="onSale">On Sale:</label>
+                  <input type="checkbox" class="form-control" id="onSale" name="onSale" th:field="*{onSale}" />
+                </div>
+                <div class="form-group">
+                  <label for="amount">Amount:</label>
+                  <input type="number" class="form-control" id="amount" name="amount" th:field="*{amount}" />
+                </div>
               </form>
             </div>
             <div class="modal-footer">

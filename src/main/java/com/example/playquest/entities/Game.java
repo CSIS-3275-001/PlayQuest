@@ -51,4 +51,8 @@ public class Game {
     public void setProductionCompany(String productionCompany) {
         this.productionCompany = productionCompany;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
