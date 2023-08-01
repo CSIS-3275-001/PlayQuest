@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:include="fragments/header.html"></th:block>
+<body>
+
+<div class="container-fluid" style="padding: 0px;">
+  <div class="row">
+    <div class="sidebar col-md-2" th:include="fragments/sidebar.html" style="float: left" ></div>
+    <div class="col-md-7">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Notifications</li>
+        </ol>
+      </nav>
+      <div class="container">
+        <h1 class="mt-4 mb-3">Notification List</h1>
+
+        <!-- Dummy data - Replace this with actual notification data from your server -->
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Date</th>
+            <th>Title</th>
+            <th>Message</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="notification, status : ${notifications}">
+            <td th:text="${notification.date}">Dummy Date</td>
+            <td th:text="${notification.title}">Dummy Title</td>
+            <td th:text="${notification.message}">Dummy Message</td>
+            <td>
+              <button type="button" class="btn btn-danger btn-sm" th:onclick="'removeNotification(\'' + ${status.index} + '\')'">Remove</button>
+              <button type="button" class="btn btn-primary btn-sm" th:onclick="'replyNotification(\'' + ${status.index} + '\')'">Reply</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="ads-sidebar col-md-3">
+      <th:block th:include="fragments/ads.html"></th:block>
+    </div>
+  </div>
+</div>
+<script th:inline="javascript">
+  /* Dummy data - Replace this with actual notification data from your server */
+  const notifications = [
+    {date: '2023-08-01', title: 'Notification 1', message: 'This is notification 1.'},
+    {date: '2023-08-02', title: 'Notification 2', message: 'This is notification 2.'},
+    {date: '2023-08-03', title: 'Notification 3', message: 'This is notification 3.'},
+  ];
+
+  function removeNotification(index) {
+    notifications.splice(index, 1);
+    refreshTable();
+  }
+
+  function replyNotification(index) {
+    const notification = notifications[index];
+    // Replace this with your reply implementation (e.g., opening a reply modal)
+    alert("Reply to: " + notification.message);
+  }
+
+  function refreshTable() {
+    const tableBody = document.querySelector("tbody");
+    tableBody.innerHTML = "";
+
+    notifications.forEach((notification, index) => {
+      const row = `<tr>
+                            <td>${notification.date}</td>
+                            <td>${notification.title}</td>
+                            <td>${notification.message}</td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="removeNotification(${index})">Remove</button>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="replyNotification(${index})">Reply</button>
+                            </td>
+                        </tr>`;
+      tableBody.innerHTML += row;
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    refreshTable();
+  });
+</script>
+<th:block th:include="fragments/footer.html"></th:block>
+</body>
+</html>

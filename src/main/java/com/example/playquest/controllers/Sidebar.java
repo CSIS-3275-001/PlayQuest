@@ -19,7 +19,7 @@ public class Sidebar {
     private final UsersRepository usersRepository;
 
 
-    @GetMapping(path = "/explore")
+    @GetMapping(path = "/notifications")
     public String Explore(Model model, HttpServletRequest request) {
         // Check if the user is logged in or has an active session
         if (!sessionManager.isUserLoggedIn(request)) {
@@ -32,7 +32,7 @@ public class Sidebar {
 
         model.addAttribute("user", user);
 
-        return "explore";
+        return "notifications";
     }
 
     @GetMapping(path = "/settings")
