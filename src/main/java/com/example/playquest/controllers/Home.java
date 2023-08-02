@@ -4,6 +4,10 @@ import com.example.playquest.entities.Ads;
 import com.example.playquest.entities.PostContent;
 import com.example.playquest.entities.User;
 import com.example.playquest.repositories.AdsRepository;
+import com.example.playquest.entities.Notification;
+import com.example.playquest.entities.PostContent;
+import com.example.playquest.entities.User;
+import com.example.playquest.repositories.NotificationRepository;
 import com.example.playquest.repositories.PostContentRepository;
 import com.example.playquest.repositories.UsersRepository;
 import com.example.playquest.services.SessionManager;
@@ -12,9 +16,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -52,6 +61,7 @@ public class Home {
         // If the user is logged in, proceed with the home page logic
         return "index";
     }
+
 
 
 

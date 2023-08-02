@@ -3,9 +3,11 @@ package com.example.playquest.controllers;
 import com.example.playquest.AwsConfig;
 import com.example.playquest.entities.Ads;
 import com.example.playquest.entities.GameProfile;
+import com.example.playquest.entities.Notification;
 import com.example.playquest.entities.PostContent;
 import com.example.playquest.entities.User;
 import com.example.playquest.repositories.GameProfileRepository;
+import com.example.playquest.repositories.NotificationRepository;
 import com.example.playquest.repositories.PostContentRepository;
 import com.example.playquest.repositories.UsersRepository;
 import com.example.playquest.services.SessionManager;
@@ -46,6 +48,7 @@ public class Post {
     private SessionManager sessionManager;
     private final GameProfileRepository gameProfileRepository;
     private final PostContentRepository postContentRepository;
+    private final NotificationRepository notificationRepository;
     private final UsersRepository usersRepository;
 
     @Autowired
@@ -162,7 +165,7 @@ public class Post {
         model.addAttribute("message", "success");
         model.addAttribute("gamesProfiles", gamesProfiles);
         model.addAttribute("user", user);
-        return "/create"; // Replace this with the appropriate return value for your case
+        return "redirect:/"; // Replace this with the appropriate return value for your case
     }
 
     @PostMapping(path = "/updateLikes")
@@ -197,5 +200,23 @@ public class Post {
         postContentRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+    @PostMapping(path = "/sendnotify")
+    public String Notify(Model model, HttpServletRequest request, @RequestParam("id_post") String id, @RequestParam("message") String message) {
+        // Check if the user is logged in or has an active session
+        if (!sessionManager.isUserLoggedIn(request)) {
+            return "redirect:/login";
+        }
 
+        Long senderId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
+        Notification notification = new Notification();
+        notification.setNotification_message(message);
+        PostContent PostContent = postContentRepository.findById(Long.parseLong(id)).orElse(null);
+        Long receiverId = PostContent.getUser().getId();
+        notification.setSender_id(usersRepository.findById(senderId).orElse(null));
+        notification.setReceiver_id(usersRepository.findById(receiverId).orElse(null));
+        System.out.println("notification = " + notification);
+        notificationRepository.save(notification);
+
+        return "redirect:/";
+    }
 }

@@ -42,9 +42,9 @@ public class Sidebar {
             return "redirect:/login";
         }
 
-
         Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
         User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
+
 
         model.addAttribute("user", user);
 

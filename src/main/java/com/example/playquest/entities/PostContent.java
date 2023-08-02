@@ -40,10 +40,15 @@ public class PostContent {
     }
 
     @JoinColumn(name = "user_id")
-    private long userId;
+    @ManyToOne
+    private User user;
 
-    public long getUser() {
-        return userId;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUserId(Long id) {
+        this.user.setId(id);
     }
 
     // Constructors
@@ -115,7 +120,4 @@ public class PostContent {
         this.spinnerSelection = spinnerSelection;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
 }

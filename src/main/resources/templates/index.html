@@ -52,6 +52,15 @@
                             <div class="post-likes" th:id="'like-counts-' + ${post.id}" th:text="${post.likes}"></div>
                             <div class="post-caption" th:text="${post.description}"></div>
                         </div>
+                        <button type="button" class="btn btn-lg btn-block btn-primary"
+                                data-toggle="modal" data-target=".bd-example-modal-lg"
+                                th:onclick="|openNotificationForm('${post.id}')|" >Buy</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="border: none; background: transparent; ">
                     </div>
                 </div>
             </div>
@@ -62,7 +71,28 @@
         </div>
     </div>
 
-        <script>
+    <script>
+        function openNotificationForm(postID) {
+            console.log(postID);
+            let notificationForm = `
+        <div class="container mt-4">
+            <form action="/sendnotify" method="POST">
+                <input name="id_post" id="id_post" value="${postID}" type="hidden">
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message:</label>
+                    <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+        </div>
+    `;
+            let formContainer = document.querySelector('.modal-content');
+            formContainer.innerHTML = notificationForm;
+        }
+    </script>
+
+
+    <script>
             function updateLikes(postID, likes) {
                 let currentLikes = likes;
                 let updatedLikes = 0;
