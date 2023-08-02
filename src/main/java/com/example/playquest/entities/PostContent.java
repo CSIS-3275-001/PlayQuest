@@ -40,10 +40,9 @@ public class PostContent {
     }
 
     @JoinColumn(name = "user_id")
-    @ManyToOne
-    private User userId;
+    private long userId;
 
-    public User getUser() {
+    public long getUser() {
         return userId;
     }
 
@@ -114,5 +113,9 @@ public class PostContent {
 
     public void setSpinnerSelection(String spinnerSelection) {
         this.spinnerSelection = spinnerSelection;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }

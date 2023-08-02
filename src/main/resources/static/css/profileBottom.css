@@ -215,3 +215,13 @@ img {
 .game-card .game-details h2 {
     margin-top: 0;
 }
+
+.profile-post-wall {
+    height: 55vh;
+    overflow: scroll;
+}
+
+.profile-games-wall {
+    height: 55vh;
+    overflow: scroll;
+}

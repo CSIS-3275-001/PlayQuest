@@ -173,7 +173,6 @@ public class Admin {
 
         // Process the uploaded files
         List<String> fileNames = new ArrayList<>();
-        List<String> fileLinks = new ArrayList<>(); // To store the file links
 
         // Create an S3 client
         S3Client s3Client = awsConfig.s3Client();
@@ -199,7 +198,6 @@ public class Admin {
                 if(response != null) {
                     fileNames.add(fileName);
                     String imageUrl = baseURL + fileName;
-                    fileLinks.add(imageUrl); // Add the link to the list
 
                     // Save the URL in the database
                     Ads newAd = new Ads();

@@ -111,3 +111,7 @@
 .comment-author {
     font-weight: bold;
 }
+
+.fas.fa-heart {
+    color: red;
+}

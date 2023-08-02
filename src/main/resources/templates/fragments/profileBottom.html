@@ -2,7 +2,7 @@
   <div class="row profile-body">
     <!-- left wrapper end -->
     <!-- middle wrapper start -->
-    <div class="col-md-8 col-xl-6 middle-wrapper">
+    <div class="col-md-8 col-xl-6 middle-wrapper profile-post-wall">
       <div class="post-wall">
         <div class="instagram-post" th:each="post : ${postContents}">
           <div class="post-header">
@@ -10,13 +10,10 @@
             <span class="post-author-name" th:text="${post.title}"></span>
           </div>
           <div class="post-image">
-            <img th:src="@{'/images/posts/' + ${post.images[0]}}" th:alt="${post.title}">
+            <img th:src="@{${post.images[0]}}" th:alt="${post.title}">
           </div>
           <div class="post-footer">
-            <div class="post-actions">
-              <i class="far fa-heart fa-3x"></i>
-            </div>
-            <div class="post-likes" th:id="'like-counts-' + ${post.id}" th:text="${post.likes}"></div>
+            <div class="post-likes" th:id="'like-counts-' + ${post.id}" th:text="${post.likes + ' likes'}"></div>
             <div class="post-caption" th:text="${post.description}"></div>
           </div>
         </div>
@@ -24,14 +21,14 @@
     </div>
     <!-- middle wrapper end -->
     <!-- right wrapper start -->
-    <div class="d-none d-xl-block col-xl-6 right-wrapper">
+    <div class="d-none d-xl-block col-xl-6 right-wrapper profile-games-wall">
       <div class="row">
         <div class="col-md-12 grid-margin">
           <div class="card rounded">
             <div class="card-body">
               <div class="row">
                 <div class="col-md-7">
-                  <h1>Games Profile</h1>
+                  <h5>Games Profile</h5>
                 </div>
                 <div class="col-md-5">
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gameModal">
@@ -48,7 +45,7 @@
                   <h2 th:text="${game.game.fullName}"></h2>
                   <p><strong>Release Date:</strong> <span th:text="${game.game.releaseDate}"></span></p>
                   <p><strong>Production Company:</strong> <span th:text="${game.game.productionCompany}"></span></p>
-                  <p><strong>User</strong> <span th:text="${game.user.getName()}"></span></p>
+<!--                  <p><strong>User</strong> <span th:text="${game.user.getName()}"></span></p>-->
                 </div>
                 <!-- Delete button -->
                 <form th:action="@{/delete-game-profile}" th:method="post">
