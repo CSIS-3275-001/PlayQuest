@@ -2,13 +2,7 @@
   <span id="ads-title">
     Advertisements
   </span>
-  <div class="row">
-    <img src="/images/ads/1.jpg" alt="Image 1">
-  </div>
-  <div class="row">
-    <img src="/images/ads/2.jpg" alt="Image 2">
-  </div>
-  <div class="row">
-    <img src="/images/ads/3.jpg" alt="Image 2">
+  <div class="row" th:each="url : ${lastThreeAdsUrl}">
+    <img th:src="${url}">
   </div>
 </div>
