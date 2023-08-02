@@ -6,6 +6,7 @@ import com.example.playquest.entities.Game;
 import com.example.playquest.entities.User;
 import com.example.playquest.repositories.AdsRepository;
 import com.example.playquest.repositories.GameRepository;
+import com.example.playquest.repositories.PostContentRepository;
 import com.example.playquest.repositories.UsersRepository;
 import com.example.playquest.services.SessionManager;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,11 +41,11 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Admin {
 
+    @Autowired
     private final UsersRepository usersRepository;
     private final SessionManager sessionManager;
     private final GameRepository gameRepository;
-
-    @Autowired
+    private final PostContentRepository postContentRepository;
     private AdsRepository adsRepository;
 
     @Autowired
@@ -60,8 +61,13 @@ public class Admin {
 
         long totalUsers = usersRepository.count();
         long totalGames = gameRepository.count();
+        long totalPosts = postContentRepository.count();
+        long totalAds = adsRepository.count();
+
         model.addAttribute("totalUsers", totalUsers);
         model.addAttribute("totalGames", totalGames);
+        model.addAttribute("totalPosts", totalPosts);
+        model.addAttribute("totalImages", totalPosts + totalAds);
 
         // If the user is logged in, proceed with the home page logic
         return "admin/index";
