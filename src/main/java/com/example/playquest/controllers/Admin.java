@@ -81,7 +81,7 @@ public class Admin {
         }
 
         // Get the last three created URLs
-        List<Ads> lastThreeAds = adsRepository.findTop3ByOrderByCreatedByDesc();
+        List<Ads> lastThreeAds = adsRepository.findTop3ByOrderByCreatedOnDesc();
         List<String> lastThreeAdsUrl = lastThreeAds.stream().map(Ads::getUrl).toList();
 
         model.addAttribute("lastThreeAdsUrl", lastThreeAdsUrl);

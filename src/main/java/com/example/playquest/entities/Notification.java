@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 public class Notification {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long notification_id;
 
     private String notification_message;

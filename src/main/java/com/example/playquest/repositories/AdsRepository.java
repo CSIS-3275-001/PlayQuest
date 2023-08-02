@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface AdsRepository extends JpaRepository<Ads, Long> {
-    List<Ads> findTop3ByOrderByCreatedByDesc();
+    List<Ads> findTop3ByOrderByCreatedOnDesc();
 }
