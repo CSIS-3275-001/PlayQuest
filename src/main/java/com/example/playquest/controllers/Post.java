@@ -125,7 +125,7 @@ public class Post {
         postContentRepository.save(postContent);
         // Example usage:
         System.out.println("Title: " + title);
-        System.out.println("Images: " + fileNames);
+        System.out.println("Ads: " + fileNames);
         System.out.println("Description: " + description);
 
         // If the user is logged in, proceed with the home page logic

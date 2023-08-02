@@ -1,7 +1,10 @@
 package com.example.playquest.controllers;
 
+import com.example.playquest.AwsConfig;
+import com.example.playquest.entities.Ads;
 import com.example.playquest.entities.Game;
 import com.example.playquest.entities.User;
+import com.example.playquest.repositories.AdsRepository;
 import com.example.playquest.repositories.GameRepository;
 import com.example.playquest.repositories.UsersRepository;
 import com.example.playquest.services.SessionManager;
@@ -26,6 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
+import software.amazon.awssdk.core.sync.RequestBody;
+import java.util.UUID;
+
 @Controller
 @AllArgsConstructor
 public class Admin {
@@ -33,6 +43,13 @@ public class Admin {
     private final UsersRepository usersRepository;
     private final SessionManager sessionManager;
     private final GameRepository gameRepository;
+
+    @Autowired
+    private AdsRepository adsRepository;
+
+    @Autowired
+    private AwsConfig awsConfig;
+
 
     @GetMapping("/admin")
     public String Administrator(HttpServletRequest request, Model model) {
@@ -51,11 +68,17 @@ public class Admin {
     }
 
     @GetMapping("/admin/ads")
-    public String Ads(HttpServletRequest request) {
+    public String Ads(HttpServletRequest request, Model model) {
         // Check if the user is logged in or has an active session
         if (!sessionManager.isUserLoggedIn(request)) {
             return "redirect:/login";
         }
+
+        // Get the last three created URLs
+        List<Ads> lastThreeAds = adsRepository.findTop3ByOrderByCreatedByDesc();
+        List<String> lastThreeAdsUrl = lastThreeAds.stream().map(Ads::getUrl).toList();
+
+        model.addAttribute("lastThreeAdsUrl", lastThreeAdsUrl);
 
         // If the user is logged in, proceed with the home page logic
         return "admin/ads";
@@ -135,8 +158,13 @@ public class Admin {
     }
 
     @PostMapping("/admin/ads")
-    public String InserAds(Model model, HttpServletRequest request, @RequestParam("photos") MultipartFile[] photos) {
-        String uploadDir = "src/main/resources/static/images/ads";
+    public String InsertAds(Model model, HttpServletRequest request, @RequestParam("photos") MultipartFile[] photos) {
+
+        // Name of your S3 bucket
+        String bucketName = "playquest-proj";
+
+        // Base URL for files in your S3 bucket
+        String baseURL = "https://playquest-proj.s3.ap-southeast-1.amazonaws.com/";
 
         // Check if the user is logged in or has an active session
         if (!sessionManager.isUserLoggedIn(request)) {
@@ -144,28 +172,42 @@ public class Admin {
         }
 
         // Process the uploaded files
-        // Process the uploaded files
         List<String> fileNames = new ArrayList<>();
-        int count = 1; // Counter for file names
+        List<String> fileLinks = new ArrayList<>(); // To store the file links
+
+        // Create an S3 client
+        S3Client s3Client = awsConfig.s3Client();
+
         for (MultipartFile photo : photos) {
-            // Perform necessary operations with the uploaded file
+            // Generate a unique file name
             String fileExtension = StringUtils.getFilenameExtension(photo.getOriginalFilename());
-            String fileName = count + "." + fileExtension;
+            String fileName = UUID.randomUUID().toString() + "." + fileExtension;
+
+            System.out.println("Uploading " + fileName);
+
             try {
-                // Save the file to the static directory
+                // Upload the file to S3
+                PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                        .bucket(bucketName)
+                        .key(fileName)
+                        .acl(ObjectCannedACL.PUBLIC_READ)
+                        .build();
 
-                Path uploadPath = Paths.get(uploadDir);
-                if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
-                }
+                PutObjectResponse response = s3Client.putObject(putObjectRequest,
+                        RequestBody.fromInputStream(photo.getInputStream(), photo.getSize()));
 
-                Path filePath = uploadPath.resolve(fileName);
-                try (InputStream inputStream = photo.getInputStream()) {
-                    Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+                if(response != null) {
                     fileNames.add(fileName);
+                    String imageUrl = baseURL + fileName;
+                    fileLinks.add(imageUrl); // Add the link to the list
+
+                    // Save the URL in the database
+                    Ads newAd = new Ads();
+                    newAd.setUrl(imageUrl);
+                    newAd.setCreatedBy(sessionManager.getUserId(request));
+                    adsRepository.save(newAd);
                 }
 
-                count++;
             } catch (IOException e) {
                 e.printStackTrace();
                 // Handle the exception as per your application's requirements

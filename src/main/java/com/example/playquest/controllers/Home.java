@@ -1,7 +1,9 @@
 package com.example.playquest.controllers;
 
+import com.example.playquest.entities.Ads;
 import com.example.playquest.entities.PostContent;
 import com.example.playquest.entities.User;
+import com.example.playquest.repositories.AdsRepository;
 import com.example.playquest.repositories.PostContentRepository;
 import com.example.playquest.repositories.UsersRepository;
 import com.example.playquest.services.SessionManager;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -21,6 +24,7 @@ public class Home {
     private final UsersRepository usersRepository;
 
     private final PostContentRepository postContentRepository;
+    private final AdsRepository adsRepository;
 
     @GetMapping("/")
     public String Index(Model model, HttpServletRequest request) {
@@ -34,10 +38,16 @@ public class Home {
 
         List<User>  allUsers = usersRepository.findAll();
         List<PostContent> postContents = postContentRepository.findAll();
+
+        // Get the last three created URLs
+        List<Ads> lastThreeAds = adsRepository.findTop3ByOrderByCreatedByDesc();
+        List<String> lastThreeAdsUrl = lastThreeAds.stream().map(Ads::getUrl).toList();
+
+
         model.addAttribute("postContents", postContents);
         model.addAttribute("user", user);
         model.addAttribute("allUsers", allUsers);
-
+        model.addAttribute("lastThreeAdsUrl", lastThreeAdsUrl);
 
         // If the user is logged in, proceed with the home page logic
         return "index";
