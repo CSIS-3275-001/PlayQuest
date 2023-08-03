@@ -35,6 +35,9 @@ public class PostTest {
     private UsersRepository usersRepository;
 
     @Mock
+    private AdsRepository adsRepository;
+
+    @Mock
     private AwsConfig awsConfig;
 
     @Mock
@@ -52,7 +55,7 @@ public class PostTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        post = new Post(sessionManager, gameProfileRepository, postContentRepository, notificationRepository, usersRepository, awsConfig);
+        post = new Post(sessionManager, gameProfileRepository, postContentRepository, notificationRepository, usersRepository, adsRepository, awsConfig);
     }
 
     @Test
