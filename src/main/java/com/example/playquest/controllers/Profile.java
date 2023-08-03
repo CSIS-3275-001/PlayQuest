@@ -52,7 +52,7 @@ public class Profile {
 
         System.out.println("User Id > " + userId);
         // Fetch the posts of the current user
-        List<PostContent> postContents = postContentRepository.findByUser(user);
+        List<PostContent> postContents = postContentRepository.findByUserOrderByCreatedOnDesc(user);
 
         model.addAttribute("postContents", postContents);
         model.addAttribute("gamesProfiles", gamesProfiles);

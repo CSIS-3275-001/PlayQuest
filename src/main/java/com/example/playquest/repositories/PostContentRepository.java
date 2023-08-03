@@ -17,5 +17,7 @@ public interface PostContentRepository extends JpaRepository<PostContent, Long> 
 
     List<PostContent> findAllByOrderByCreatedOnDesc();
 
+    List<PostContent> findByUserOrderByCreatedOnDesc(User user);
+
     void deleteById(Long id);
 }

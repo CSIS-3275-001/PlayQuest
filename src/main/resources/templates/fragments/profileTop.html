@@ -6,6 +6,15 @@
     <div class="row justify-content-center">
       <div class="col-xl-11">
         <div class="widget head-profile has-shadow">
+          <div class="d-flex justify-content-center align-items-center" style="width: 100%;margin-top: 50px;">
+            <div class="image-default">
+              <div class="rounded-circle profile-initials"
+                   style="font-size: 57px; border: 2px solid black; background-color: #3a3acfc4; width: 110px; height: 110px; display: flex; align-items: center; justify-content: center;"
+                   th:text="${user.name.split(' ')[0].charAt(0)} + ${user.name.contains(' ') ? user.name.split(' ')[1].charAt(0) : ''}">
+              </div>
+            </div>
+          </div>
+
           <div class="widget-body pb-0">
             <div class="row d-flex align-items-center">
               <div class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center">
@@ -17,9 +26,6 @@
                 </ul>
               </div>
               <div class="col-xl-4 col-md-4 d-flex justify-content-center">
-                <div class="image-default">
-                  <img class="rounded-circle" src="./images/profilepic.png" alt="...">
-                </div>
                 <div class="infos">
                   <h2 th:text="${user.name}"></h2>
                   <div class="location">New Delhi, IN</div>

@@ -10,9 +10,27 @@
         </div>
 
         <div class="instagram-post" th:each="post : ${postContents}" th:unless="${#lists.isEmpty(postContents)}">
-          <div class="post-header">
-            <img src="/images/profilepic.png" alt="Post Author">
-            <span class="post-author-name" th:text="${post.title}"></span>
+          <div class="post-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <div class="d-flex justify-content-center align-items-center" style="width: 100%;margin-right: 10px;">
+                <div class="image-default">
+                  <div class="rounded-circle profile-initials"
+                       style="font-size: 20px; border: 2px solid black; background-color: #3a3acfc4; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"
+                       th:text="${post.user.name.split(' ')[0].charAt(0)} + ${post.user.name.contains(' ') ? post.user.name.split(' ')[1].charAt(0) : ''}">
+                  </div>
+                </div>
+              </div>
+              <span class="post-author-name" th:text="${post.title}"></span>
+            </div>
+            <!-- Three dots and dropdown menu -->
+            <div class="dropdown">
+              <button class="btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                <i class="fas fa-ellipsis-h"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item text-danger" href="#" th:onclick="|deletePost('${post.id}')|">Delete</a></li>
+              </ul>
+            </div>
           </div>
           <div class="post-image">
             <img th:src="@{${post.images[0]}}" th:alt="${post.title}">
@@ -104,4 +122,16 @@
     <!-- right wrapper end -->
   </div>
 </div>
+
+<script>
+  function deletePost(postId) {
+    $.ajax({
+      url: '/posts/' + postId,
+      type: 'DELETE',
+      success: function(result) {
+        location.reload();
+      }
+    });
+  }
+</script>
 </div>

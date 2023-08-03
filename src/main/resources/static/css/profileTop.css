@@ -19,21 +19,18 @@ body{
 }
 
 .db-social .head-profile {
-    margin-top: -215px;
-    border-radius: 158px;
-    background: none;
-    position: relative;
+    margin-top: -355px;
 }
 
 .has-shadow {
-    box-shadow: 0 1px 15px 1px rgba(52,40,104,.08);
+    /*box-shadow: 0 1px 15px 1px rgba(52,40,104,.08);*/
 }
 
 .db-social .widget-body {
     padding: 1rem 1.4rem;
 }
 .widget-body {
-    padding: 1.4rem;
+    /*padding: 1.4rem;*/
 }
 .pb-0, .py-0 {
     padding-bottom: 0!important;
@@ -50,7 +47,7 @@ body{
 }
 .db-social .infos {
     text-align: center;
-    margin-top: 4rem;
+    margin-top: 1rem;
     margin-bottom: 1rem;
     line-height: 1.8rem;
 }
@@ -136,4 +133,15 @@ body{
 .db-social .head-profile li .heading {
     color: #000000;
     font-size: 1rem;
+}
+
+.profile-initials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;  /* adjust as needed */
+    width: 100px;  /* adjust as needed */
+    background-color: #333;  /* adjust as needed */
+    color: #fff;  /* adjust as needed */
+    font-size: 2em;  /* adjust as needed */
 }

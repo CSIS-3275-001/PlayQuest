@@ -29,18 +29,25 @@
                     <div class="instagram-post" th:each="post : ${postContents}">
                         <div class="post-header d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center">
-                                <img src="/images/profilepic.png" alt="Post Author">
+                                <div class="d-flex justify-content-center align-items-center" style="width: 100%;margin-right: 10px;">
+                                    <div class="image-default">
+                                        <div class="rounded-circle profile-initials"
+                                             style="font-size: 20px; border: 2px solid black; background-color: #3a3acfc4; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"
+                                             th:text="${post.user.name.split(' ')[0].charAt(0)} + ${post.user.name.contains(' ') ? post.user.name.split(' ')[1].charAt(0) : ''}">
+                                        </div>
+                                    </div>
+                                </div>
                                 <span class="post-author-name" th:text="${post.title}"></span>
                             </div>
                             <!-- Three dots and dropdown menu -->
-                            <div class="dropdown">
-                                <button class="btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                                    <li><a class="dropdown-item text-danger" href="#" th:onclick="|deletePost('${post.id}')|">Delete</a></li>
-                                </ul>
-                            </div>
+<!--                            <div class="dropdown">-->
+<!--                                <button class="btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">-->
+<!--                                    <i class="fas fa-ellipsis-h"></i>-->
+<!--                                </button>-->
+<!--                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">-->
+<!--                                    <li><a class="dropdown-item text-danger" href="#" th:onclick="|deletePost('${post.id}')|">Delete</a></li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
                         </div>
                         <div class="post-image">
                             <img th:src="@{${post.images[0]}}" th:alt="${post.title}">
@@ -67,7 +74,7 @@
                 </div>
             </div>
             <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-lg" style="background: #f4f4f4;border-radius: 8px;padding: 5px;">
                     <div class="modal-content" style="border: none; background: transparent; ">
                     </div>
                 </div>
@@ -90,7 +97,7 @@
                     <label for="message" class="form-label">Message:</label>
                     <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Send</button>
+                <button type="submit" class="btn btn-primary" style="margin-bottom:10px;">Send</button>
             </form>
         </div>
     `;
@@ -153,16 +160,6 @@
                     // Handle any errors that occurred during the request or response
                     console.error('Error:', error);
                 }
-            }
-
-            function deletePost(postId) {
-                $.ajax({
-                    url: '/posts/' + postId,
-                    type: 'DELETE',
-                    success: function(result) {
-                        location.reload();
-                    }
-                });
             }
         </script>
     <th:block th:include="fragments/footer.html"></th:block>
