@@ -3,7 +3,6 @@ package com.example.playquest.entities;
 import jakarta.persistence.*;
 
 @Entity
-
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,8 +10,24 @@ public class Notification {
 
     private String notification_message;
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User sender_id;
+    @JoinColumn(name = "sender_id")
+    private User sender;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private User receiver;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private PostContent post;
+
+    public Long getNotification_id() {
+        return notification_id;
+    }
+
+    public void setNotification_id(Long notification_id) {
+        this.notification_id = notification_id;
+    }
 
     public String getNotification_message() {
         return notification_message;
@@ -22,32 +37,27 @@ public class Notification {
         this.notification_message = notification_message;
     }
 
-    public User getSender_id() {
-        return sender_id;
+    public User getSender() {
+        return sender;
     }
 
-    public void setSender_id(User sender_id) {
-        this.sender_id = sender_id;
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
-    public User getReceiver_id() {
-        return receiver_id;
+    public User getReceiver() {
+        return receiver;
     }
 
-    public void setReceiver_id(User receiver_id) {
-        this.receiver_id = receiver_id;
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "user_id",insertable=false, updatable=false)
-    private User receiver_id;
-
-
-    public void setNotification_id(Long notificationId) {
-        this.notification_id = notificationId;
+    public PostContent getPost() {
+        return post;
     }
 
-    public Long getNotification_id() {
-        return notification_id;
+    public void setPost(PostContent post) {
+        this.post = post;
     }
 }

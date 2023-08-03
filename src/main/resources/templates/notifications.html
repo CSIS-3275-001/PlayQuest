@@ -16,24 +16,26 @@
       <div class="container">
         <h1 class="mt-4 mb-3">Notification List</h1>
 
-        <!-- Dummy data - Replace this with actual notification data from your server -->
-        <table class="table table-striped">
+        <table class="table">
           <thead>
           <tr>
-            <th>Date</th>
-            <th>Game</th>
             <th>Message</th>
-            <th>Actions</th>
+            <th>Sender</th>
+            <th>Post Title</th>
+            <th>Action</th>
           </tr>
           </thead>
           <tbody>
-          <tr th:each="notification, status : ${notifications}">
-            <td th:text="${notification.date}">Dummy Date</td>
-            <td th:text="${notification.title}">Dummy Title</td>
-            <td th:text="${notification.message}">Dummy Message</td>
+          <tr th:each="notification : ${notifications}">
+            <td th:text="${notification.notification_message}"></td>
+            <td th:text="${notification.sender.getName()}"></td>
             <td>
-              <button type="button" class="btn btn-danger btn-sm" th:onclick="'removeNotification(\'' + ${status.index} + '\')'">Remove</button>
-              <button type="button" class="btn btn-primary btn-sm" th:onclick="'replyNotification(\'' + ${status.index} + '\')'">Reply</button>
+              <a th:href="@{/post/{id}(id=${notification.post.getId()})}" th:text="${notification.post.getTitle()}"></a>
+            </td>
+            <td>
+              <form th:action="@{/notification/{id}(id=${notification.notification_id})}" th:method="delete">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
             </td>
           </tr>
           </tbody>
@@ -47,47 +49,12 @@
     </div>
   </div>
 </div>
+
 <script th:inline="javascript">
-  /* Dummy data - Replace this with actual notification data from your server */
-  const notifications = [
-    {date: '2023-08-01', title: 'Notification 1', message: 'This is notification 1.'},
-    {date: '2023-08-02', title: 'Notification 2', message: 'This is notification 2.'},
-    {date: '2023-08-03', title: 'Notification 3', message: 'This is notification 3.'},
-  ];
 
-  function removeNotification(index) {
-    notifications.splice(index, 1);
-    refreshTable();
-  }
 
-  function replyNotification(index) {
-    const notification = notifications[index];
-    // Replace this with your reply implementation (e.g., opening a reply modal)
-    alert("Reply to: " + notification.message);
-  }
-
-  function refreshTable() {
-    const tableBody = document.querySelector("tbody");
-    tableBody.innerHTML = "";
-
-    notifications.forEach((notification, index) => {
-      const row = `<tr>
-                            <td>${notification.date}</td>
-                            <td>${notification.title}</td>
-                            <td>${notification.message}</td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-sm" onclick="removeNotification(${index})">Remove</button>
-                                <button type="button" class="btn btn-primary btn-sm" onclick="replyNotification(${index})">Reply</button>
-                            </td>
-                        </tr>`;
-      tableBody.innerHTML += row;
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    refreshTable();
-  });
 </script>
+
 <th:block th:include="fragments/footer.html"></th:block>
 </body>
 </html>

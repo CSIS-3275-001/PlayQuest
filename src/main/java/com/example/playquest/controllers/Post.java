@@ -6,10 +6,7 @@ import com.example.playquest.entities.GameProfile;
 import com.example.playquest.entities.Notification;
 import com.example.playquest.entities.PostContent;
 import com.example.playquest.entities.User;
-import com.example.playquest.repositories.GameProfileRepository;
-import com.example.playquest.repositories.NotificationRepository;
-import com.example.playquest.repositories.PostContentRepository;
-import com.example.playquest.repositories.UsersRepository;
+import com.example.playquest.repositories.*;
 import com.example.playquest.services.SessionManager;
 import lombok.AllArgsConstructor;
 import netscape.javascript.JSObject;
@@ -50,6 +47,7 @@ public class Post {
     private final PostContentRepository postContentRepository;
     private final NotificationRepository notificationRepository;
     private final UsersRepository usersRepository;
+    private final AdsRepository adsRepository;
 
     @Autowired
     private AwsConfig awsConfig;
@@ -72,6 +70,28 @@ public class Post {
         System.out.println("games = " + gamesProfiles);
 
         return "create";
+    }
+
+    @GetMapping(path = "/post/{id}")
+    public String getPost(@PathVariable Long id, Model model, HttpServletRequest request) {
+        Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
+        User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
+
+        // Fetch the post using the id
+        PostContent postContent = postContentRepository.findById(id).orElse(null);
+
+        // Get the last three created URLs
+        List<Ads> lastThreeAds = adsRepository.findTop3ByOrderByCreatedOnDesc();
+        List<String> lastThreeAdsUrl = lastThreeAds.stream().map(Ads::getUrl).toList();
+
+
+        // Add the post content to the model
+        model.addAttribute("user", user);
+        model.addAttribute("post", postContent);
+        model.addAttribute("lastThreeAdsUrl", lastThreeAdsUrl);
+
+        // Return the view that will display the post content
+        return "post"; // Update this with the name of your view that shows the post details
     }
 
     // This function handles the POST request for your postContent page
@@ -201,20 +221,22 @@ public class Post {
         return ResponseEntity.ok().build();
     }
     @PostMapping(path = "/sendnotify")
-    public String Notify(Model model, HttpServletRequest request, @RequestParam("id_post") String id, @RequestParam("message") String message) {
+    public String Notify(Model model, HttpServletRequest request, @RequestParam("id_post") long postId, @RequestParam("message") String message, @RequestParam("user_id") long receiverId) {
         // Check if the user is logged in or has an active session
         if (!sessionManager.isUserLoggedIn(request)) {
             return "redirect:/login";
         }
 
+        System.out.println(receiverId + "<<");
+
         Long senderId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
         Notification notification = new Notification();
         notification.setNotification_message(message);
-        PostContent PostContent = postContentRepository.findById(Long.parseLong(id)).orElse(null);
-        Long receiverId = PostContent.getUser().getId();
-        notification.setSender_id(usersRepository.findById(senderId).orElse(null));
-        notification.setReceiver_id(usersRepository.findById(receiverId).orElse(null));
-        System.out.println("notification = " + notification);
+        notification.setSender(usersRepository.findById(senderId).orElse(null));
+        notification.setReceiver(usersRepository.findById(receiverId).orElse(null));
+        Optional<PostContent> optionalPostContent = postContentRepository.findById(postId);
+        optionalPostContent.ifPresent(notification::setPost);
+        System.out.println("notification receiver= " + notification.getReceiver().getId());
         notificationRepository.save(notification);
 
         return "redirect:/";
