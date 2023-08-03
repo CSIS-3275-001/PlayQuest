@@ -58,7 +58,7 @@
 
 .instagram-post {
     max-width: 600px; /* Adjust the maximum width as desired */
-    margin: 0 auto; /* Center the post horizontally */
+    margin: 40px auto; /* Center the post horizontally */
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;

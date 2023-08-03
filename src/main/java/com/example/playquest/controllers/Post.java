@@ -151,7 +151,7 @@ public class Post {
         postContent.setToggleStatus(toggleStatus);
         postContent.setSpinnerSelection(spinnerSelection);// Replace "John Doe" with the actual profile name
         postContent.setLikes(0);
-        postContent.setUserId(sessionManager.getUserId(request));
+        postContent.setUserId(userId);
 
         // Save the PostContent object to the repository
         postContentRepository.save(postContent);

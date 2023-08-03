@@ -48,6 +48,7 @@ public class PostContent {
     }
 
     public void setUserId(Long id) {
+        this.user = new User();
         this.user.setId(id);
     }
 
