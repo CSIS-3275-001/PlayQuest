@@ -46,7 +46,7 @@ public class Home {
         User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
 
         List<User>  allUsers = usersRepository.findAll();
-        List<PostContent> postContents = postContentRepository.findAll();
+        List<PostContent> postContents = postContentRepository.findAllByOrderByCreatedOnDesc();
 
         // Get the last three created URLs
         List<Ads> lastThreeAds = adsRepository.findTop3ByOrderByCreatedOnDesc();

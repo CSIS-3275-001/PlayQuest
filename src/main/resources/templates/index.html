@@ -13,18 +13,18 @@
                     </ol>
                 </nav>
 
-                <div class="stories-container">
-                    <div class="stories">
-                        <!-- Add your Instagram-like stories here -->
-                        <div th:each="user : ${allUsers}" class="story">
-                            <div class="story-image">
-                                <img src="/images/ads/1.jpg" alt="Story 1">
-                            </div>
-                            <div class="story-name" th:text="${user.name}"></div>
-                        </div>
-                        <!-- Add more stories as needed -->
-                    </div>
-                </div>
+<!--                <div class="stories-container">-->
+<!--                    <div class="stories">-->
+<!--                        &lt;!&ndash; Add your Instagram-like stories here &ndash;&gt;-->
+<!--                        <div th:each="user : ${allUsers}" class="story">-->
+<!--                            <div class="story-image">-->
+<!--                                <img src="/images/ads/1.jpg" alt="Story 1">-->
+<!--                            </div>-->
+<!--                            <div class="story-name" th:text="${user.name}"></div>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; Add more stories as needed &ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="post-wall">
                     <div class="instagram-post" th:each="post : ${postContents}">
                         <div class="post-header d-flex justify-content-between align-items-center">
@@ -49,8 +49,16 @@
                             <div class="post-actions">
                                 <i class="far fa-heart fa-3x" th:id="'heart-icon-' + ${post.id}"  th:onclick="|updateLikes('${post.id}', ${post.likes})|"></i>
                             </div>
-                            <div class="post-likes" th:id="'like-counts-' + ${post.id}" th:text="${post.likes}"></div>
+                            <div class="row justify-content-between">
+                                <div class="col-auto">
+                                    <div class="post-likes" th:id="'like-counts-' + ${post.id}" th:text="${post.likes}"></div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="post-date text-end" th:text="${#temporals.format(post.getCreatedOn(), 'dd-MM-yyyy HH:mm')}" style="color: #a6a6a6;"></div>
+                                </div>
+                            </div>
                             <div class="post-caption" th:text="${post.description}"></div>
+
                         </div>
                         <button type="button" class="btn btn-lg btn-block btn-primary"
                                 data-toggle="modal" data-target=".bd-example-modal-lg"

@@ -1,6 +1,11 @@
 package com.example.playquest.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -42,6 +47,20 @@ public class PostContent {
     @JoinColumn(name = "user_id")
     @ManyToOne
     private User user;
+
+    @CreationTimestamp
+    @Column(name = "created_on", nullable = false, updatable = false)
+    private LocalDateTime createdOn;
+
+    @UpdateTimestamp
+    @Column(name = "updated_on", nullable = false)
+    private LocalDateTime updatedOn;
+
+    @PrePersist
+    @PreUpdate
+    public void updateTimestamps() {
+        updatedOn = LocalDateTime.now();
+    }
 
     public User getUser() {
         return user;
@@ -121,4 +140,19 @@ public class PostContent {
         this.spinnerSelection = spinnerSelection;
     }
 
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public LocalDateTime getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
+    }
 }

@@ -3,8 +3,13 @@
     <!-- left wrapper end -->
     <!-- middle wrapper start -->
     <div class="col-md-8 col-xl-6 middle-wrapper profile-post-wall">
-      <div class="post-wall">
-        <div class="instagram-post" th:each="post : ${postContents}">
+      <div class="">
+        <div th:if="${#lists.isEmpty(postContents)}" class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
+          <i class="fas fa-exclamation-circle fa-3x text-warning"></i>
+          <p class="fs-4 mt-3">No posts available</p>
+        </div>
+
+        <div class="instagram-post" th:each="post : ${postContents}" th:unless="${#lists.isEmpty(postContents)}">
           <div class="post-header">
             <img src="/images/profilepic.png" alt="Post Author">
             <span class="post-author-name" th:text="${post.title}"></span>

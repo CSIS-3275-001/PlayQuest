@@ -46,19 +46,19 @@ public class Profile {
 
         Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
         User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
+
         List<GameProfile> gamesProfiles = gameProfileRepository.findAll();
         List<Game> games = gameRepository.findAll();
-        List<PostContent> postContents = postContentRepository.findAll();
-        System.out.println("postContents = " + postContents);
+
+        System.out.println("User Id > " + userId);
+        // Fetch the posts of the current user
+        List<PostContent> postContents = postContentRepository.findByUser(user);
 
         model.addAttribute("postContents", postContents);
-
         model.addAttribute("gamesProfiles", gamesProfiles);
         model.addAttribute("games", games);
         model.addAttribute("user", user);
         model.addAttribute("gameProfile", new GameProfile());
-
-        System.out.println("games = " + gamesProfiles);
 
         return "profile";
     }
