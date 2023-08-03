@@ -47,7 +47,7 @@ public class Profile {
         Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
         User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
 
-        List<GameProfile> gamesProfiles = gameProfileRepository.findAll();
+        List<GameProfile> gamesProfiles = gameProfileRepository.findByUserId(user);
         List<Game> games = gameRepository.findAll();
 
         System.out.println("User Id > " + userId);
@@ -59,6 +59,42 @@ public class Profile {
         model.addAttribute("games", games);
         model.addAttribute("user", user);
         model.addAttribute("gameProfile", new GameProfile());
+        model.addAttribute("disableButtons", false);
+
+        return "profile";
+    }
+
+    @GetMapping(path = "/profile/u/{id}")
+    public String userProfile(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
+        // Check if the user is logged in or has an active session
+        if (!sessionManager.isUserLoggedIn(request)) {
+            return "redirect:/login";
+        }
+
+        Long ogUserId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
+        User ogUser = usersRepository.findById(ogUserId).orElse(null); // Assuming you have a UserRepository for querying user details
+
+
+        User user = usersRepository.findById(id).orElse(null); // Fetch the user based on the id path variable
+
+        if (user == null) {
+            // Redirect to an error page or handle the situation where the user is not found
+            return "redirect:/";
+        }
+
+        List<GameProfile> gamesProfiles = gameProfileRepository.findByUserId(user);
+        List<Game> games = gameRepository.findAll();
+
+        // Fetch the posts of the current user
+        List<PostContent> postContents = postContentRepository.findByUserOrderByCreatedOnDesc(user);
+
+        model.addAttribute("postContents", postContents);
+        model.addAttribute("gamesProfiles", gamesProfiles);
+        model.addAttribute("games", games);
+        model.addAttribute("user", user);
+        model.addAttribute("ogUser", ogUser);
+        model.addAttribute("gameProfile", new GameProfile());
+        model.addAttribute("disableButtons", true);
 
         return "profile";
     }

@@ -37,8 +37,15 @@
     <hr>
     <div class="dropdown">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-            <strong th:text="${user.name}"></strong>
+            <div class="d-flex justify-content-center align-items-center" style="width: 100%;margin-right: 5px;">
+                <div class="image-default">
+                    <div class="rounded-circle profile-initials"
+                         style="font-size: 20px; border: 2px solid black; background-color: #3a3acfc4; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"
+                         th:text="${(ogUser != null ? ogUser : user).name.split(' ')[0].charAt(0)} + ${(ogUser != null ? ogUser : user).name.contains(' ') ? (ogUser != null ? ogUser : user).name.split(' ')[1].charAt(0) : ''}">
+                    </div>
+                </div>
+            </div>
+            <strong th:text="${ogUser != null ? ogUser.name : user.name}"></strong>
         </a>
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser2" >
             <li><a class="dropdown-item" href="/profile">Profile</a></li>

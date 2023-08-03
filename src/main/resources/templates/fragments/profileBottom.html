@@ -23,7 +23,7 @@
               <span class="post-author-name" th:text="${post.title}"></span>
             </div>
             <!-- Three dots and dropdown menu -->
-            <div class="dropdown">
+            <div class="dropdown" th:if="${!disableButtons}">
               <button class="btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
                 <i class="fas fa-ellipsis-h"></i>
               </button>
@@ -50,12 +50,12 @@
           <div class="card rounded">
             <div class="card-body">
               <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-10">
                   <h5>Games Profile</h5>
                 </div>
-                <div class="col-md-5">
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gameModal">
-                    Add Game Profile
+                <div class="col-md-2" th:if="${!disableButtons}">
+                  <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#gameModal">
+                    <i class="fa fa-plus"></i>
                   </button>
                 </div>
               </div>
@@ -71,7 +71,7 @@
 <!--                  <p><strong>User</strong> <span th:text="${game.user.getName()}"></span></p>-->
                 </div>
                 <!-- Delete button -->
-                <form th:action="@{/delete-game-profile}" th:method="post">
+                <form th:action="@{/delete-game-profile}" th:method="post" th:if="${!disableButtons}">
                   <input type="hidden" name="profileId" th:value="${game.profileId}" />
                   <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
