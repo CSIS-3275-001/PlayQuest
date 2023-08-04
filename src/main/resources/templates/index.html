@@ -71,15 +71,22 @@
                         <div class="post-footer">
                             <div class="post-actions">
                                 <i class="far fa-heart fa-2x" th:id="'heart-icon-' + ${post.id}"  th:onclick="|updateLikes('${post.id}', ${post.likes})|"></i>
-                                <i class="fas fa-share-square fa-2x" style="margin-left:10px;" th:id="'share-icon-' + ${post.id}" th:onclick="|copyToClipboard('${post.id}')|"></i>
+                                <i class="fas fa-share-square fa-2x" style="margin-left:10px;" th:id="'share-icon-' + ${post.id}" th:onclick="|showShareModal('${post.id}')|"></i>
 
                                 <!-- Include this somewhere in your body -->
-                                <div id="alert" class="alert alert-info fixed-top" style="display: none; opacity: 0; width: 216px;margin: auto; background: #343a40; color: white;">
-                                    The <strong>link</strong> is copied!
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: white;">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                                <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="shareModalLabel">Share Post</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p id="postLink">Loading...</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
 
                             </div>
                             <div class="row justify-content-between">
@@ -99,9 +106,9 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+            <div class="modal fade bd-example-modal-lg" id="notification_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
                 <div class="modal-dialog modal-lg" style="background: #f4f4f4;border-radius: 8px;padding: 5px;">
-                    <div class="modal-content" style="border: none; background: transparent; ">
+                    <div class="modal-content modal-content-notif" style="border: none; background: transparent; ">
                     </div>
                 </div>
             </div>
@@ -127,7 +134,7 @@
             </form>
         </div>
     `;
-            let formContainer = document.querySelector('.modal-content');
+            let formContainer = document.querySelector('.modal-content-notif');
             formContainer.innerHTML = notificationForm;
         }
     </script>
@@ -188,25 +195,11 @@
                 }
             }
 
-            async function copyToClipboard(postId) {
-                var postLink = window.location.href + 'post/' + postId;  // get the link of the post
-                try {
-                    await navigator.clipboard.writeText(postLink);
-                    showAlert();
-                } catch (err) {
-                    console.error('Failed to copy text: ', err);
-                }
-            }
-
-            function showAlert() {
-                var alertElement = $('#alert');
-                alertElement.css('opacity', '1');
-                alertElement.show();
-
-                setTimeout(function() {
-                    alertElement.fadeOut('fast');
-                    alertElement.css('opacity', '0');
-                }, 3000);  // fades out after 3000ms
+            function showShareModal(postId) {
+                var postLink = window.location.origin + '/post/' + postId;
+                document.getElementById('postLink').textContent = postLink;
+                var modal = new bootstrap.Modal(document.getElementById('shareModal'));
+                modal.show();
             }
 
     </script>
