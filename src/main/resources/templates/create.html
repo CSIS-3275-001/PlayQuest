@@ -37,7 +37,7 @@
 
             <label for="profile" class="profile-select">Profile:</label>
             <select id="profile" name="spinnerSelection">
-              <option th:each="game : ${gamesProfiles}" th:value="${'profile' + game.game.fullName}" th:text="${game.game.fullName}"></option>
+              <option th:each="game : ${gamesProfiles}" th:value="${game.game.getId()}" th:text="${game.game.fullName}"></option>
             </select>
             <button class="btn btn-lg btn-block purple-clr post-button" type="submit">Post</button>
           </form>          <button class="close-button" onclick="closePopup()">X</button>

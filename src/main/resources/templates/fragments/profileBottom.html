@@ -12,7 +12,7 @@
         <div class="instagram-post" th:each="post : ${postContents}" th:unless="${#lists.isEmpty(postContents)}">
           <div class="post-header d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
-              <div class="d-flex justify-content-center align-items-center" style="width: 100%;margin-right: 10px;">
+              <div class="d-flex justify-content-center align-items-center" style="margin-right: 10px;">
                 <div class="image-default">
                   <div class="rounded-circle profile-initials"
                        style="font-size: 20px; border: 2px solid black; background-color: #3a3acfc4; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"
@@ -32,8 +32,8 @@
               </ul>
             </div>
           </div>
-          <div class="post-image">
-            <img th:src="@{${post.images[0]}}" th:alt="${post.title}">
+          <div class="post-image" style="width: 496px;">
+            <img th:src="@{${post.images[0]}}" th:alt="${post.title}" style="width: 100%">
           </div>
           <div class="post-footer">
             <div class="post-likes" th:id="'like-counts-' + ${post.id}" th:text="${post.likes + ' likes'}"></div>

@@ -218,8 +218,6 @@ public class Admin {
             }
         }
 
-        System.out.println(fileNames);
-
         // If the user is logged in, proceed with the home page logic
         model.addAttribute("message", "success");
         return "admin/ads";
