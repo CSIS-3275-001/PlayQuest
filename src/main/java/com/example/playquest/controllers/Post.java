@@ -63,7 +63,7 @@ public class Post {
         User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
 
 
-        List<GameProfile> gamesProfiles = gameProfileRepository.findAll();
+        List<GameProfile> gamesProfiles = gameProfileRepository.findByUserId(user);
         model.addAttribute("gamesProfiles", gamesProfiles);
         model.addAttribute("user", user);
 
