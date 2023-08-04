@@ -60,6 +60,10 @@
                 </div>
               </div>
 
+              <div th:if="${gamesProfiles.isEmpty()}">
+                <p>No profiles available.</p>
+              </div>
+
               <div class="game-card" th:each="game : ${gamesProfiles}">
                 <div class="game-image">
                   <img th:src="${game.game.iconUrl}" alt="Game Icon" style="width: 100%;">

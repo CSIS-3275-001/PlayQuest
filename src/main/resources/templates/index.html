@@ -13,18 +13,32 @@
                     </ol>
                 </nav>
 
-<!--                <div class="stories-container">-->
-<!--                    <div class="stories">-->
-<!--                        &lt;!&ndash; Add your Instagram-like stories here &ndash;&gt;-->
-<!--                        <div th:each="user : ${allUsers}" class="story">-->
+                <div class="stories-container">
+                    <div class="stories">
+                        <!-- Add your Instagram-like stories here -->
+                        <div th:each="user : ${allUsers}" class="story">
 <!--                            <div class="story-image">-->
 <!--                                <img src="/images/ads/1.jpg" alt="Story 1">-->
 <!--                            </div>-->
-<!--                            <div class="story-name" th:text="${user.name}"></div>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash; Add more stories as needed &ndash;&gt;-->
-<!--                    </div>-->
-<!--                </div>-->
+
+                            <a th:href="@{/profile/u/{id}(id=${user.id})}" style="text-decoration: none; color: inherit;">
+                                <div class="d-flex justify-content-center align-items-center" style="width: 100%;margin-right: 10px;padding-top: 15px;">
+                                    <div class="image-default">
+                                        <div class="rounded-circle profile-initials"
+                                             style="font-size: 20px; border: 2px solid black; background: linear-gradient(45deg, #3a3acfc4, #8b8bfc); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(0,0,0,0.5); transition: transform 0.3s ease-in-out;"
+                                             th:text="${user.name.split(' ')[0].charAt(0)} + ${user.name.contains(' ') ? user.name.split(' ')[1].charAt(0) : ''}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <div class="story-name" th:text="${user.name}"></div>
+
+                        </div>
+                        <!-- Add more stories as needed -->
+                    </div>
+                </div>
+
                 <div class="post-wall">
                     <div class="instagram-post" th:each="post : ${postContents}">
                         <div class="post-header d-flex justify-content-between align-items-center">
@@ -56,7 +70,17 @@
                         </div>
                         <div class="post-footer">
                             <div class="post-actions">
-                                <i class="far fa-heart fa-3x" th:id="'heart-icon-' + ${post.id}"  th:onclick="|updateLikes('${post.id}', ${post.likes})|"></i>
+                                <i class="far fa-heart fa-2x" th:id="'heart-icon-' + ${post.id}"  th:onclick="|updateLikes('${post.id}', ${post.likes})|"></i>
+                                <i class="fas fa-share-square fa-2x" style="margin-left:10px;" th:id="'share-icon-' + ${post.id}" th:onclick="|copyToClipboard('${post.id}')|"></i>
+
+                                <!-- Include this somewhere in your body -->
+                                <div id="alert" class="alert alert-info fixed-top" style="display: none; opacity: 0; width: 216px;margin: auto; background: #343a40; color: white;">
+                                    The <strong>link</strong> is copied!
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: white;">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
                             </div>
                             <div class="row justify-content-between">
                                 <div class="col-auto">
@@ -163,7 +187,29 @@
                     console.error('Error:', error);
                 }
             }
-        </script>
+
+            async function copyToClipboard(postId) {
+                var postLink = window.location.href + 'post/' + postId;  // get the link of the post
+                try {
+                    await navigator.clipboard.writeText(postLink);
+                    showAlert();
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                }
+            }
+
+            function showAlert() {
+                var alertElement = $('#alert');
+                alertElement.css('opacity', '1');
+                alertElement.show();
+
+                setTimeout(function() {
+                    alertElement.fadeOut('fast');
+                    alertElement.css('opacity', '0');
+                }, 3000);  // fades out after 3000ms
+            }
+
+    </script>
     <th:block th:include="fragments/footer.html"></th:block>
 </body>
 </html>

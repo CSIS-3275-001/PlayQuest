@@ -27,7 +27,7 @@
           </thead>
           <tbody>
           <tr th:each="notification : ${notifications}">
-            <td th:text="${notification.notification_message}"></td>
+            <td><i class="fas fa-bell"></i> <span th:text="${notification.notification_message}"></span></td>
             <td th:text="${notification.sender.getName()}"></td>
             <td>
               <a th:href="@{/post/{id}(id=${notification.post.getId()})}" th:text="${notification.post.getTitle()}"></a>
@@ -37,6 +37,9 @@
                 <button type="submit" class="btn btn-danger">Delete</button>
               </form>
             </td>
+          </tr>
+          <tr th:unless="${notifications.size() > 0}">
+            <td colspan="4" style="text-align: center;"><i class="fas fa-bell"></i> No notifications</td>
           </tr>
           </tbody>
         </table>

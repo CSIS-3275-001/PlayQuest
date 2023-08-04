@@ -33,7 +33,11 @@
             <strong>Admin</strong>
         </a>
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser2" >
-            <li><a class="dropdown-item" th:href="@{/logout}">Sign out</a></li>
+            <li>
+                <a class="dropdown-item text-danger" th:href="@{/logout}">
+                    <i class="fas fa-sign-out-alt"></i> Sign out
+                </a>
+            </li>
         </ul>
     </div>
 </div>

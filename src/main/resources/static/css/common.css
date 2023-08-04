@@ -52,7 +52,7 @@
 /* POST */
 
 .post-wall {
-    height: 90vh;
+    height: 77vh;
     overflow: scroll;
 }
 
@@ -114,4 +114,8 @@
 
 .fas.fa-heart {
     color: red;
+}
+
+.profile-initials:hover {
+    transform: scale(1.2);  /* Value 1.2 means zooming 120% */
 }
