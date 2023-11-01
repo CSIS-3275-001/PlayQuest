@@ -12,7 +12,7 @@ public class AppConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/"); // Adjust the resource location as per your project structure
+                .addResourceLocations("classpath:/static/");
     }
 
     @Bean

@@ -42,16 +42,15 @@ public class Home {
             return "redirect:/login";
         }
 
-        Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
-        User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
+        Long userId = sessionManager.getUserId(request);
+        User user = usersRepository.findById(userId).orElse(null);
 
-        List<User>  allUsers = usersRepository.findAll();
+        List<User> allUsers = usersRepository.findAll();
         List<PostContent> postContents = postContentRepository.findAllByOrderByCreatedOnDesc();
 
         // Get the last three created URLs
         List<Ads> lastThreeAds = adsRepository.findTop3ByOrderByCreatedOnDesc();
         List<String> lastThreeAdsUrl = lastThreeAds.stream().map(Ads::getUrl).toList();
-
 
         model.addAttribute("postContents", postContents);
         model.addAttribute("user", user);
@@ -61,8 +60,5 @@ public class Home {
         // If the user is logged in, proceed with the home page logic
         return "index";
     }
-
-
-
 
 }

@@ -30,7 +30,6 @@ public class Login {
         this.usersRepository = usersRepository;
     }
 
-
     @GetMapping("/login")
     public String showLoginPage(HttpServletRequest request) {
 
@@ -38,7 +37,8 @@ public class Login {
     }
 
     @PostMapping("/login")
-    public RedirectView login(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletResponse response) {
+    public RedirectView login(@RequestParam("email") String email, @RequestParam("password") String password,
+            HttpServletResponse response) {
         // Authenticate the user based on email and password
         User user = authenticateUserByEmailAndPassword(email, password);
 
@@ -60,10 +60,6 @@ public class Login {
     }
 
     private User authenticateUserByEmailAndPassword(String email, String password) {
-        // Implement your authentication logic based on email and password
-        // Query the database or perform any other authentication mechanism
-
-        // Example implementation (replace with your own logic):
         Optional<User> userOptional = usersRepository.findByEmail(email);
         if (userOptional.isPresent() && userOptional.get().getPassword().equals(password)) {
             return userOptional.get();
@@ -72,13 +68,13 @@ public class Login {
         }
     }
 
-//    @PostMapping("/logout")
-//    public ResponseEntity<String> logout(@RequestParam("sessionId") String sessionId) {
-//        sessionManager.deleteSession(sessionId);
-//
-//        // Perform any additional logout actions
-//        return ResponseEntity.ok("Logged out successfully");
-//    }
+    // @PostMapping("/logout")
+    // public ResponseEntity<String> logout(@RequestParam("sessionId") String
+    // sessionId) {
+    // sessionManager.deleteSession(sessionId);
+    //
+    // return ResponseEntity.ok("Logged out successfully");
+    // }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
@@ -92,15 +88,10 @@ public class Login {
     }
 
     private String generateSessionId() {
-        // Implement your logic to generate a session ID
-        // For example, you can use UUID.randomUUID().toString() to generate a random session ID
         return UUID.randomUUID().toString();
     }
 
     private LocalDateTime calculateSessionExpirationTime() {
-        // Implement your logic to calculate the session expiration time
-        // This can involve adding a fixed duration to the current time or using any other expiration logic
-        // Return the session expiration time as a LocalDateTime object
         return LocalDateTime.now().plusHours(1); // Expiration time is set to 1 hour from the current time
     }
 

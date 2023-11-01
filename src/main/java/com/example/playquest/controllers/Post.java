@@ -53,15 +53,14 @@ public class Post {
     private AwsConfig awsConfig;
 
     @GetMapping(path = "/create")
-    public String Create(Model model,HttpServletRequest request) {
+    public String Create(Model model, HttpServletRequest request) {
         // Check if the user is logged in or has an active session
         if (!sessionManager.isUserLoggedIn(request)) {
             return "redirect:/login";
         }
 
-        Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
-        User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
-
+        Long userId = sessionManager.getUserId(request);
+        User user = usersRepository.findById(userId).orElse(null);
 
         List<GameProfile> gamesProfiles = gameProfileRepository.findByUserId(user);
         model.addAttribute("gamesProfiles", gamesProfiles);
@@ -74,8 +73,8 @@ public class Post {
 
     @GetMapping(path = "/post/{id}")
     public String getPost(@PathVariable Long id, Model model, HttpServletRequest request) {
-        Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
-        User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
+        Long userId = sessionManager.getUserId(request);
+        User user = usersRepository.findById(userId).orElse(null);
 
         // Fetch the post using the id
         PostContent postContent = postContentRepository.findById(id).orElse(null);
@@ -84,14 +83,13 @@ public class Post {
         List<Ads> lastThreeAds = adsRepository.findTop3ByOrderByCreatedOnDesc();
         List<String> lastThreeAdsUrl = lastThreeAds.stream().map(Ads::getUrl).toList();
 
-
         // Add the post content to the model
         model.addAttribute("user", user);
         model.addAttribute("post", postContent);
         model.addAttribute("lastThreeAdsUrl", lastThreeAdsUrl);
 
         // Return the view that will display the post content
-        return "post"; // Update this with the name of your view that shows the post details
+        return "post";
     }
 
     // This function handles the POST request for your postContent page
@@ -103,22 +101,20 @@ public class Post {
             @RequestParam("photos") MultipartFile[] photos,
             @RequestParam("description") String description,
             @RequestParam(value = "toggleStatus", required = false) Boolean toggleStatus,
-            @RequestParam("spinnerSelection") String spinnerSelection
-    ) {
+            @RequestParam("spinnerSelection") String spinnerSelection) {
         // Name of your S3 bucket
         String bucketName = "playquest-proj";
 
         // Base URL for files in your S3 bucket
         String baseURL = "https://playquest-proj.s3.ap-southeast-1.amazonaws.com/";
 
-        if(toggleStatus == null){
+        if (toggleStatus == null) {
             toggleStatus = false;
         }
         // Check if the user is logged in or has an active session
         if (!sessionManager.isUserLoggedIn(request)) {
             return "redirect:/login";
         }
-
 
         System.out.println("Inside POST create");
 
@@ -146,50 +142,47 @@ public class Post {
                 PutObjectResponse response = s3Client.putObject(putObjectRequest,
                         RequestBody.fromInputStream(photo.getInputStream(), photo.getSize()));
 
-                if(response != null) {
+                if (response != null) {
                     String imageUrl = baseURL + fileName;
                     fileNames.add(imageUrl);
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
-                // Handle the exception as per your application's requirements
             }
         }
 
-        Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
-        User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
+        Long userId = sessionManager.getUserId(request);
+        User user = usersRepository.findById(userId).orElse(null);
 
         List<GameProfile> gamesProfiles = gameProfileRepository.findAll();
 
-        // Now you have access to all the parameters provided in the POST request.
-        // You can use them in your business logic as required.
         PostContent postContent = new PostContent();
         postContent.setTitle(title);
-        postContent.setImages(fileNames); // Assuming you only save one photo per post
+        postContent.setImages(fileNames);
         postContent.setDescription(description);
         postContent.setToggleStatus(toggleStatus);
-        postContent.setSpinnerSelection(spinnerSelection);// Replace "John Doe" with the actual profile name
+        postContent.setSpinnerSelection(spinnerSelection);
         postContent.setLikes(0);
         postContent.setUserId(userId);
 
         // Save the PostContent object to the repository
         postContentRepository.save(postContent);
 
-        // Example usage:
-        System.out.println("Title: " + title);
-        System.out.println("Ads: " + fileNames);
-        System.out.println("Description: " + description);
+        // System.out.println("Title: " + title);
+        // System.out.println("Ads: " + fileNames);
+        // System.out.println("Description: " + description);
 
         // If the user is logged in, proceed with the home page logic
         model.addAttribute("message", "success");
         model.addAttribute("gamesProfiles", gamesProfiles);
         model.addAttribute("user", user);
-        return "redirect:/"; // Replace this with the appropriate return value for your case
+        return "redirect:/";
     }
 
     @PostMapping(path = "/updateLikes")
-    public String updateLikes(Model model, HttpServletRequest request, @org.springframework.web.bind.annotation.RequestBody Map<String, Long> data) {
+    public String updateLikes(Model model, HttpServletRequest request,
+            @org.springframework.web.bind.annotation.RequestBody Map<String, Long> data) {
         // Check if the user is logged in or has an active session
         if (!sessionManager.isUserLoggedIn(request)) {
             return "redirect:/login";
@@ -199,15 +192,11 @@ public class Post {
         Long postID = data.get("id");
         int updatedLikes = data.get("likes").intValue();
 
-        // Assuming you have a PostContentRepository instance defined somewhere.
-        // Make sure to handle any potential errors or exceptions related to database operations.
         Optional<PostContent> postOptional = postContentRepository.findById(postID);
         if (postOptional.isPresent()) {
             PostContent postContent = postOptional.get();
             postContent.setLikes(updatedLikes);
             postContentRepository.save(postContent);
-        } else {
-            // Handle the error as per your application's requirements
         }
 
         System.out.println("data = " + postID + " " + updatedLikes);
@@ -220,8 +209,10 @@ public class Post {
         postContentRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
     @PostMapping(path = "/sendnotify")
-    public String Notify(Model model, HttpServletRequest request, @RequestParam("id_post") long postId, @RequestParam("message") String message, @RequestParam("user_id") long receiverId) {
+    public String Notify(Model model, HttpServletRequest request, @RequestParam("id_post") long postId,
+            @RequestParam("message") String message, @RequestParam("user_id") long receiverId) {
         // Check if the user is logged in or has an active session
         if (!sessionManager.isUserLoggedIn(request)) {
             return "redirect:/login";
@@ -229,7 +220,7 @@ public class Post {
 
         System.out.println(receiverId + "<<");
 
-        Long senderId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
+        Long senderId = sessionManager.getUserId(request);
         Notification notification = new Notification();
         notification.setNotification_message(message);
         notification.setSender(usersRepository.findById(senderId).orElse(null));

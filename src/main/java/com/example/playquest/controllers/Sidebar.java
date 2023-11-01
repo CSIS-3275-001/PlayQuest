@@ -28,7 +28,6 @@ public class Sidebar {
     private final AdsRepository adsRepository;
     private final NotificationRepository notificationRepository;
 
-
     @GetMapping(path = "/notifications")
     public String Notifications(Model model, HttpServletRequest request) {
         // Check if the user is logged in or has an active session
@@ -42,8 +41,8 @@ public class Sidebar {
 
         model.addAttribute("lastThreeAdsUrl", lastThreeAdsUrl);
 
-        Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
-        User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
+        Long userId = sessionManager.getUserId(request);
+        User user = usersRepository.findById(userId).orElse(null);
 
         // Fetch notifications for the current user
         List<Notification> notifications = notificationRepository.findByReceiver(user);
@@ -56,7 +55,7 @@ public class Sidebar {
 
     @DeleteMapping(path = "/notification/{id}")
     public String deleteNotification(@PathVariable Long id) {
-        notificationRepository.deleteById(id); // Assuming NotificationRepository extends CrudRepository or JpaRepository
+        notificationRepository.deleteById(id);
 
         // Redirect to the notifications page after deletion
         return "redirect:/notifications";
@@ -69,8 +68,8 @@ public class Sidebar {
             return "redirect:/login";
         }
 
-        Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
-        User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
+        Long userId = sessionManager.getUserId(request);
+        User user = usersRepository.findById(userId).orElse(null);
 
         // Get the last three created URLs
         List<Ads> lastThreeAds = adsRepository.findTop3ByOrderByCreatedOnDesc();

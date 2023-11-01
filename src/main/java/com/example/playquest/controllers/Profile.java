@@ -36,7 +36,6 @@ public class Profile {
     @Autowired
     private HttpSession httpSession; // Autowire HttpSession to access the session
 
-
     @GetMapping(path = "/profile")
     public String Profile(Model model, HttpServletRequest request) {
         // Check if the user is logged in or has an active session
@@ -44,13 +43,13 @@ public class Profile {
             return "redirect:/login";
         }
 
-        Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
-        User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
+        Long userId = sessionManager.getUserId(request);
+        User user = usersRepository.findById(userId).orElse(null);
 
         List<GameProfile> gamesProfiles = gameProfileRepository.findByUserId(user);
         List<Game> games = gameRepository.findAll();
 
-        System.out.println("User Id > " + userId);
+        // System.out.println("User Id > " + userId);
         // Fetch the posts of the current user
         List<PostContent> postContents = postContentRepository.findByUserOrderByCreatedOnDesc(user);
 
@@ -71,9 +70,8 @@ public class Profile {
             return "redirect:/login";
         }
 
-        Long ogUserId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
-        User ogUser = usersRepository.findById(ogUserId).orElse(null); // Assuming you have a UserRepository for querying user details
-
+        Long ogUserId = sessionManager.getUserId(request);
+        User ogUser = usersRepository.findById(ogUserId).orElse(null);
 
         User user = usersRepository.findById(id).orElse(null); // Fetch the user based on the id path variable
 
@@ -124,7 +122,6 @@ public class Profile {
         return "redirect:/profile"; // Redirect to the home page after deletion
     }
 
-
     @GetMapping(path = "/profile/edit")
     public String ProfileEdit(Model model, HttpServletRequest request) {
         // Check if the user is logged in or has an active session
@@ -133,10 +130,12 @@ public class Profile {
         }
 
         // Retrieve the userId from the session manager
-        Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the session
+        Long userId = sessionManager.getUserId(request); // Assuming you have a method to retrieve the userId from the
+                                                         // session
 
         // Retrieve the user details from the repository
-        User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying user details
+        User user = usersRepository.findById(userId).orElse(null); // Assuming you have a UserRepository for querying
+                                                                   // user details
 
         // Add user details to the model
         model.addAttribute("user", user);
@@ -145,7 +144,8 @@ public class Profile {
     }
 
     @PostMapping("/updateProfile/{userId}")
-    public String updateProfile(Model model,@PathVariable("userId") Long userId, @ModelAttribute("user") User updatedUser) {
+    public String updateProfile(Model model, @PathVariable("userId") Long userId,
+            @ModelAttribute("user") User updatedUser) {
         // Retrieve the existing user from the repository
         User existingUser = usersRepository.findById(userId).orElse(null);
 
